@@ -1,0 +1,15 @@
+所有新创建的本地bat命令行文件的要求，都需要在创建后，验证功能是否符合创建时的需求
+所有新增的测试用例，编写完成后，都要验证用例是否通过每次修改代码
+重新编译后，都执行一遍run.bat，重启spring服务，确保新的代码生效
+所有对目录结构和文件位置的代码调整都要考虑包名变化路径变化造成的影响
+所有测试用例和测试相关的文件都必须放到test目录下，测试用例文件按照驼峰命名规则，testXXX命名
+
+重要：本项目 Java 源码目录是 service/，不是 src/main/java/
+  - pom.xml 配置了 <sourceDirectory>service</sourceDirectory>
+  - 修改 Java 代码时必须修改 service/ 目录下的文件
+  - src/main/java/ 目录下的代码不会被编译
+
+每次修改代码后必须：
+  - 修改 Java 代码或静态资源（web/目录）：执行 mvn clean compile 重新编译，重启 Spring Boot 服务
+  - 修改 Python 代码：必须重启 Python 服务（端口 5001）才能生效
+  - 执行 run.bat 会同时重启 Python 和 Spring Boot 两个服务

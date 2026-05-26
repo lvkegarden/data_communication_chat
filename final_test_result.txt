@@ -1,0 +1,52 @@
+﻿======================================================================
+Intent Recognition API Test Report
+======================================================================
+
+[1/4] Testing GET /api/intent/types ...
+    OK - Returned 10 intent types
+
+[2/4] Testing POST /api/intent/analyze ...
+    [OK] 'Hello' -> greeting (95%) [0 subtasks]
+    [OK] 'Write Python code' -> code_query (95%) [1 subtasks]
+    [OK] 'Analyze sales data' -> data_analysis (95%) [5 subtasks]
+    [OK] 'How to make project plan' -> task_planning (95%) [7 subtasks]
+    [ERROR] 'Search AI news' -> Exception: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/intent/analyze (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [WinError 10061] 鐢变簬鐩爣璁＄畻鏈虹Н鏋佹嫆缁濓紝鏃犳硶杩炴帴銆?))
+    [OK] 'Write business email' -> creative_writing (95%) [5 subtasks]
+    [OK] 'What is Transformer' -> knowledge_query (98%) [3 subtasks]
+    [MATCHED] 'How is weather' -> information_search (95%) [3 subtasks]
+    [OK] 'Goodbye' -> farewell (95%) [0 subtasks]
+    Total: 8 PASS, 1 FAIL
+
+[3/4] Testing POST /api/intent/analyze/batch ...
+    OK - Batch analyzed 3 texts
+      [1] Intent: greeting
+      [2] Intent: code_query
+      [3] Intent: data_analysis
+
+[4/4] Testing GET /api/intent/history ...
+    OK - History has 4 records
+
+======================================================================
+Test Results Summary
+======================================================================
+  Intent Types List: PASS
+  Single Intent Analysis: 8/9 PASS
+  Batch Analysis: PASS
+  History Query: PASS
+
+======================================================================
+
+Server Status: RUNNING
+Server Address: http://localhost:5001
+API Base Path: /api/intent
+
+Test Page URL:
+  file:///d:/project/ai/localrest/web/intent_test.html
+
+API Endpoints:
+  GET  /api/intent/types          - Get all intent types
+  POST /api/intent/analyze        - Analyze single text
+  POST /api/intent/analyze/batch  - Analyze multiple texts
+  GET  /api/intent/history        - Get analysis history
+  DELETE /api/intent/history      - Clear history
+======================================================================

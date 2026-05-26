@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据采集管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+            color: white;
+        }
+        .btn-warning:hover {
+            box-shadow: 0 5px 20px rgba(252, 74, 26, 0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+        }
+        .btn-danger:hover {
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+        .btn-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-info:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+        }
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+        .checkbox-cell input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .compare-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            display: none;
+        }
+        .compare-bar.show {
+            display: flex;
+        }
+        .compare-info {
+            font-weight: 500;
+        }
+        .compare-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .compare-table th, .compare-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        .compare-table th:first-child, .compare-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            background: #f8f9fa;
+            min-width: 150px;
+        }
+        .compare-product-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .compare-product-header .product-code {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .compare-product-header .product-name {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .highlight-diff {
+            background: #fff3cd;
+        }
+        .specs-preview {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .spec-tag {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #666;
+            white-space: nowrap;
+        }
+        .spec-tag.highlight {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        .spec-key {
+            color: #999;
+        }
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .specs-table th, .specs-table td {
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        .specs-table th {
+            background: #f8f9fa;
+            width: 120px;
+            color: #666;
+        }
+        .specs-table td {
+            color: #333;
+        }
+        .core-spec {
+            background: #fff3e0 !important;
+        }
+        .core-spec th {
+            background: #ff9800 !important;
+            color: white !important;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-card.huawei {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        .stat-card.h3c {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .stat-card.ruijie {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-card.switch {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-card.wireless {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-huawei {
+            background: #ff416c;
+            color: white;
+        }
+        .badge-h3c {
+            background: #11998e;
+            color: white;
+        }
+        .badge-ruijie {
+            background: #4facfe;
+            color: white;
+        }
+        .badge-switch {
+            background: #667eea;
+            color: white;
+        }
+        .badge-wireless {
+            background: #f5576c;
+            color: white;
+        }
+        .badge-active {
+            background: #28a745;
+            color: white;
+        }
+        .badge-inactive {
+            background: #6c757d;
+            color: white;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-box input, .search-box select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .search-box input:focus, .search-box select:focus {
+            outline: none;
+            border-color: #11998e;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-close:hover {
+            color: #333;
+        }
+        .detail-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            width: 100px;
+            font-weight: 600;
+            color: #666;
+        }
+        .detail-value {
+            flex: 1;
+            color: #333;
+            word-break: break-all;
+        }
+        .json-view {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        .toast-success {
+            background: #28a745;
+        }
+        .toast-error {
+            background: #dc3545;
+        }
+        .toast-info {
+            background: #17a2b8;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .refresh-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .refresh-btn:hover {
+            color: #11998e;
+        }
+        .refresh-btn.spinning {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>数据采集管理</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">数据采集操作</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="collectHuawei()">采集华为数据</button>
+                    <button class="btn btn-info" onclick="collectH3C()">采集华三数据</button>
+                    <button class="btn btn-warning" onclick="collectRuijie()">采集锐捷数据</button>
+                    <button class="btn btn-info" onclick="refreshData()">刷新数据</button>
+                    <button class="btn btn-danger" onclick="confirmClear()">清空所有数据</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">数据统计</div>
+                <button class="refresh-btn" onclick="refreshData()" title="刷新">🔄</button>
+            </div>
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-count">-</div>
+                    <div class="stat-label">总产品数</div>
+                </div>
+                <div class="stat-card huawei">
+                    <div class="stat-value" id="huawei-count">-</div>
+                    <div class="stat-label">华为产品</div>
+                </div>
+                <div class="stat-card h3c">
+                    <div class="stat-value" id="h3c-count">-</div>
+                    <div class="stat-label">华三产品</div>
+                </div>
+                <div class="stat-card ruijie">
+                    <div class="stat-value" id="ruijie-count">-</div>
+                    <div class="stat-label">锐捷产品</div>
+                </div>
+                <div class="stat-card switch">
+                    <div class="stat-value" id="switch-count">-</div>
+                    <div class="stat-label">交换机</div>
+                </div>
+                <div class="stat-card wireless">
+                    <div class="stat-value" id="wireless-count">-</div>
+                    <div class="stat-label">无线产品</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">产品列表</div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜索产品型号或名称..." oninput="filterProducts()">
+                <select id="source-filter" onchange="filterProducts()">
+                    <option value="">全部品牌</option>
+                    <option value="华为">华为</option>
+                    <option value="华三">华三</option>
+                    <option value="锐捷">锐捷</option>
+                </select>
+                <select id="category-filter" onchange="filterProducts()">
+                    <option value="">全部类型</option>
+                    <option value="交换机">交换机</option>
+                    <option value="无线">无线</option>
+                </select>
+            </div>
+            
+            <div class="compare-bar" id="compare-bar">
+                <div class="compare-info">
+                    已选择 <span id="compare-count">0</span> 个产品进行比较
+                </div>
+                <div class="compare-actions">
+                    <button class="btn btn-success" onclick="showCompare()">开始比较</button>
+                    <button class="btn btn-warning" onclick="clearCompare()">清空选择</button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="products-table">
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell"><input type="checkbox" id="select-all" onchange="toggleSelectAll()"></th>
+                            <th>型号</th>
+                            <th>名称</th>
+                            <th>品牌</th>
+                            <th>类型</th>
+                            <th>系列</th>
+                            <th>核心规格</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-tbody">
+                        <tr>
+                            <td colspan="9" class="loading">加载中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="detail-title">产品详情</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="detail-body"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="compare-modal">
+        <div class="modal-content" style="max-width: 90%; width: 1200px; max-height: 90vh;">
+            <div class="modal-header">
+                <div class="modal-title" id="compare-title">产品比较</div>
+                <button class="modal-close" onclick="closeCompareModal()">&times;</button>
+            </div>
+            <div id="compare-body" style="overflow-x: auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:8080/api/collect';
+        let allProducts = [];
+        let selectedProducts = [];
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('select-all').checked;
+            document.querySelectorAll('.product-checkbox').forEach(cb => {
+                cb.checked = selectAll;
+            });
+            updateSelectedProducts();
+        }
+
+        function updateSelectedProducts() {
+            selectedProducts = [];
+            document.querySelectorAll('.product-checkbox:checked').forEach(cb => {
+                const productId = parseInt(cb.dataset.productId);
+                const product = allProducts.find(p => p.id === productId);
+                if (product) {
+                    selectedProducts.push(product);
+                }
+            });
+            
+            const compareBar = document.getElementById('compare-bar');
+            const compareCount = document.getElementById('compare-count');
+            
+            if (selectedProducts.length > 0) {
+                compareBar.classList.add('show');
+                compareCount.textContent = selectedProducts.length;
+            } else {
+                compareBar.classList.remove('show');
+            }
+        }
+
+        function clearCompare() {
+            document.querySelectorAll('.product-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+            document.getElementById('select-all').checked = false;
+            updateSelectedProducts();
+        }
+
+        async function showCompare() {
+            if (selectedProducts.length < 2) {
+                showToast('请至少选择2个产品进行比较', 'warning');
+                return;
+            }
+            
+            const productCodes = selectedProducts.map(p => p.product_code);
+            
+            document.getElementById('compare-title').textContent = `产品比较 (${selectedProducts.length}个产品)`;
+            document.getElementById('compare-body').innerHTML = '<div class="loading">加载比较数据...</div>';
+            document.getElementById('compare-modal').classList.add('show');
+            
+            try {
+                const response = await fetch(`${BASE_URL}/compare`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(productCodes)
+                });
+                
+                const compareData = await response.json();
+                renderCompareContent(compareData);
+            } catch (error) {
+                document.getElementById('compare-body').innerHTML = `<div class="loading" style="color: #dc3545;">加载失败: ${error.message}</div>`;
+            }
+        }
+
+        function renderCompareContent(data) {
+            if (data.error) {
+                document.getElementById('compare-body').innerHTML = `<div class="loading" style="color: #dc3545;">${data.error}</div>`;
+                return;
+            }
+            
+            const products = data.products || [];
+            const comparisonTable = data.comparison_table || [];
+            const groupedByCategory = data.grouped_by_category || {};
+            
+            const allAttributeNames = [...new Set(comparisonTable.map(row => row.attribute_name))];
+            
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>规格参数</th>
+                                ${products.map(p => `
+                                    <th>
+                                        <div class="compare-product-header" style="padding: 10px; border-radius: 8px;">
+                                            <div class="product-code">${escapeHtml(p.product_code)}</div>
+                                            <div class="product-name">${escapeHtml(p.product_name)}</div>
+                                            <div style="margin-top: 5px;">
+                                                <span class="badge badge-${getSourceClass(p.source)}">${escapeHtml(p.source)}</span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                `).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${allAttributeNames.map(attrName => {
+                                const row = comparisonTable.find(r => r.attribute_name === attrName);
+                                const values = products.map(p => row[p.product_code] || '-');
+                                
+                                const hasDiff = values.filter(v => v !== '-').length > 1 && new Set(values).size > 1;
+                                
+                                return `
+                                    <tr class="${hasDiff ? 'highlight-diff' : ''}">
+                                        <td>${escapeHtml(attrName)}</td>
+                                        ${values.map(v => `<td>${escapeHtml(v)}</td>`).join('')}
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 13px; color: #666;">
+                    <strong>提示：</strong>高亮显示的行表示不同产品之间存在规格差异，便于快速识别差异点。
+                </div>
+            `;
+            
+            document.getElementById('compare-body').innerHTML = html;
+        }
+
+        function closeCompareModal() {
+            document.getElementById('compare-modal').classList.remove('show');
+        }
+
+        document.getElementById('compare-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeCompareModal();
+        });
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        async function refreshData() {
+            const refreshBtn = document.querySelector('.refresh-btn');
+            refreshBtn.classList.add('spinning');
+            
+            try {
+                await Promise.all([
+                    loadStats(),
+                    loadProducts()
+                ]);
+                showToast('数据已刷新', 'success');
+            } catch (error) {
+                showToast('刷新失败: ' + error.message, 'error');
+            } finally {
+                refreshBtn.classList.remove('spinning');
+            }
+        }
+
+        async function loadStats() {
+            const response = await fetch(`${BASE_URL}/stats`);
+            const data = await response.json();
+            
+            const bySource = data.by_source || {};
+            const byCategory = data.by_category || {};
+            
+            document.getElementById('total-count').textContent = data.total_products || 0;
+            document.getElementById('huawei-count').textContent = bySource['华为'] || 0;
+            document.getElementById('h3c-count').textContent = bySource['华三'] || 0;
+            document.getElementById('ruijie-count').textContent = bySource['锐捷'] || 0;
+            document.getElementById('switch-count').textContent = byCategory['交换机'] || 0;
+            document.getElementById('wireless-count').textContent = byCategory['无线'] || 0;
+        }
+
+        async function loadProducts() {
+            const response = await fetch(`${BASE_URL}/products`);
+            allProducts = await response.json();
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const sourceFilter = document.getElementById('source-filter').value;
+            const categoryFilter = document.getElementById('category-filter').value;
+            
+            const filtered = allProducts.filter(p => {
+                const matchSearch = !search || 
+                    (p.product_code && p.product_code.toLowerCase().includes(search)) ||
+                    (p.product_name && p.product_name.toLowerCase().includes(search)) ||
+                    (p.series && p.series.toLowerCase().includes(search));
+                const matchSource = !sourceFilter || p.source === sourceFilter;
+                const matchCategory = !categoryFilter || p.category === categoryFilter;
+                return matchSearch && matchSource && matchCategory;
+            });
+            
+            renderProducts(filtered);
+        }
+
+        function renderProducts(products) {
+            const tbody = document.getElementById('products-tbody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📦</div>
+                                <div>暂无数据</div>
+                                <div style="margin-top: 10px; font-size: 14px;">点击上方"采集华为数据"按钮开始采集</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = products.map(p => {
+                const coreSpecs = extractCoreSpecs(p.specs);
+                return `
+                <tr>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="product-checkbox" 
+                               data-product-id="${p.id}" 
+                               onchange="updateSelectedProducts()">
+                    </td>
+                    <td><strong>${escapeHtml(p.product_code || '-')}</strong></td>
+                    <td>${escapeHtml(p.product_name || '-')}</td>
+                    <td>
+                        <span class="badge badge-${getSourceClass(p.source)}">
+                            ${escapeHtml(p.source || '-')}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-${getCategoryClass(p.category)}">
+                            ${escapeHtml(p.category || '-')}
+                        </span>
+                    </td>
+                    <td>${escapeHtml(p.series || '-')}</td>
+                    <td>
+                        <div class="specs-preview">
+                            ${coreSpecs.map(spec => `
+                                <span class="spec-tag highlight">
+                                    <span class="spec-key">${escapeHtml(spec.key)}:</span>
+                                    ${escapeHtml(spec.value)}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge ${p.status === '在售' ? 'badge-active' : 'badge-inactive'}">
+                            ${escapeHtml(p.status || '-')}
+                        </span>
+                    </td>
+                    <td>${formatDate(p.created_at)}</td>
+                    <td>
+                        <button class="btn btn-info" style="padding: 5px 10px; font-size: 12px;" 
+                                onclick="showDetailById(${p.id})">
+                            详情
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function getSourceClass(source) {
+            switch(source) {
+                case '华为': return 'huawei';
+                case '华三': return 'h3c';
+                case '锐捷': return 'ruijie';
+                default: return 'info';
+            }
+        }
+
+        function getCategoryClass(category) {
+            switch(category) {
+                case '交换机': return 'switch';
+                case '无线': return 'wireless';
+                default: return 'info';
+            }
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function collectHuawei() {
+            if (!confirm('确定要开始采集华为数据吗？')) return;
+            
+            showToast('开始采集华为数据，请稍候...', 'info');
+            
+            try {
+                const response = await fetch(`${BASE_URL}/huawei`, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast(`采集成功！保存了 ${data.products_saved} 个产品`, 'success');
+                    await refreshData();
+                } else {
+                    showToast('采集失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showToast('请求失败: ' + error.message, 'error');
+            }
+        }
+
+        async function confirmClear() {
+            if (!confirm('确定要清空所有采集数据吗？此操作不可恢复！')) return;
+            
+            try {
+                const response = await fetch(`${BASE_URL}/clear`, { method: 'DELETE' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('数据已清空', 'success');
+                    await refreshData();
+                } else {
+                    showToast('操作失败', 'error');
+                }
+            } catch (error) {
+                showToast('请求失败: ' + error.message, 'error');
+            }
+        }
+
+        async function showDetailById(productId) {
+            const product = allProducts.find(p => String(p.id) === String(productId));
+            document.getElementById('detail-title').textContent = product ? (product.product_name || product.product_code) : '产品详情';
+            document.getElementById('detail-body').innerHTML = '<div class="loading">加载详情...</div>';
+            document.getElementById('detail-modal').classList.add('show');
+            
+            try {
+                const response = await fetch(`${BASE_URL}/products/${productId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const detail = await response.json();
+                if (detail.error) {
+                    throw new Error(detail.error);
+                }
+                renderDetailContent(detail);
+            } catch (error) {
+                console.error('详情加载失败:', error);
+                document.getElementById('detail-body').innerHTML = `<div class="loading" style="color: #dc3545;">加载失败: ${error.message}</div>`;
+            }
+        }
+
+        function extractCoreSpecs(specs) {
+            if (!specs) return [];
+            
+            const coreSpecKeys = ['产品定位', '适用场景', '交换容量', '包转发率', '最大速率', '接入终端', '端口数量', '上行端口'];
+            
+            const result = [];
+            for (const key of coreSpecKeys) {
+                if (specs[key]) {
+                    let value = specs[key];
+                    if (value.length > 30) {
+                        value = value.substring(0, 30) + '...';
+                    }
+                    result.push({ key, value });
+                }
+            }
+            return result.slice(0, 3);
+        }
+
+        async function collectH3C() {
+            if (!confirm('确定要开始采集华三数据吗？')) return;
+            
+            showToast('开始采集华三数据，请稍候...', 'info');
+            
+            try {
+                const response = await fetch(`${BASE_URL}/h3c`, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast(`采集成功！保存了 ${data.products_saved} 个产品`, 'success');
+                    await refreshData();
+                } else {
+                    showToast('采集失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showToast('请求失败: ' + error.message, 'error');
+            }
+        }
+
+        async function collectRuijie() {
+            if (!confirm('确定要开始采集锐捷数据吗？')) return;
+            
+            showToast('开始采集锐捷数据，请稍候...', 'info');
+            
+            try {
+                const response = await fetch(`${BASE_URL}/ruijie`, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast(`采集成功！保存了 ${data.products_saved} 个产品`, 'success');
+                    await refreshData();
+                } else {
+                    showToast('采集失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showToast('请求失败: ' + error.message, 'error');
+            }
+        }
+
+        function renderDetailContent(detail) {
+            if (!detail) {
+                document.getElementById('detail-body').innerHTML = '<div class="loading" style="color: #dc3545;">数据为空</div>';
+                return;
+            }
+            
+            const specs = detail.specs || {};
+            let links = detail.links || [];
+            
+            // 确保 links 是数组
+            if (!Array.isArray(links)) {
+                links = [];
+            }
+            
+            const coreSpecKeys = ['产品定位', '适用场景', '交换容量', '包转发率', '业务插槽数', '主控引擎', '端口类型', '端口数量', '上行端口', '最大速率', '接入终端', '无线标准', '天线', 'PoE'];
+            const otherSpecKeys = ['电源', '最大功耗', '尺寸', '重量', '工作温度', '支持协议', '产品类型', '品牌', '系列', '主要特性'];
+            
+            // 确保 specs 是对象
+            const safeSpecs = specs && typeof specs === 'object' ? specs : {};
+            const allSpecKeys = Object.keys(safeSpecs);
+            
+            const coreSpecs = [];
+            const otherSpecs = [];
+            const remainingSpecs = [];
+            
+            for (const key of coreSpecKeys) {
+                if (safeSpecs[key]) coreSpecs.push(key);
+            }
+            for (const key of otherSpecKeys) {
+                if (safeSpecs[key] && !coreSpecs.includes(key)) otherSpecs.push(key);
+            }
+            for (const key of allSpecKeys) {
+                if (!coreSpecs.includes(key) && !otherSpecs.includes(key)) {
+                    remainingSpecs.push(key);
+                }
+            }
+            
+            let coreSpecsHtml = '';
+            if (coreSpecs.length > 0) {
+                coreSpecsHtml = `
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #eee;">
+                        <h3 style="margin-bottom: 10px; color: #ff9800;">核心规格参数</h3>
+                        <table class="specs-table">
+                            ${coreSpecs.map(key => `
+                                <tr class="core-spec">
+                                    <th>${escapeHtml(key)}</th>
+                                    <td>${escapeHtml(safeSpecs[key] || '-')}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                `;
+            }
+            
+            let otherSpecsHtml = '';
+            const allOtherSpecs = [...otherSpecs, ...remainingSpecs];
+            if (allOtherSpecs.length > 0) {
+                otherSpecsHtml = `
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #eee;">
+                        <h3 style="margin-bottom: 10px; color: #333;">其他规格参数</h3>
+                        <table class="specs-table">
+                            ${allOtherSpecs.map(key => `
+                                <tr>
+                                    <th>${escapeHtml(key)}</th>
+                                    <td>${escapeHtml(safeSpecs[key] || '-')}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                `;
+            }
+            
+            let linksHtml = '';
+            if (links.length > 0) {
+                linksHtml = `
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #eee;">
+                        <h3 style="margin-bottom: 10px; color: #333;">相关链接 (${links.length})</h3>
+                        ${links.map(link => `
+                            <div class="detail-row">
+                                <div class="detail-label">
+                                    <span class="badge badge-${getLinkTypeClass(link.type)}">${escapeHtml(link.type)}</span>
+                                </div>
+                                <div class="detail-value">
+                                    <a href="${escapeHtml(link.url)}" target="_blank" style="word-break: break-all;">
+                                        ${escapeHtml(link.title || link.url)}
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            document.getElementById('detail-body').innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">型号</div>
+                    <div class="detail-value"><strong>${escapeHtml(detail.product_code || '-')}</strong></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">名称</div>
+                    <div class="detail-value">${escapeHtml(detail.product_name || '-')}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">品牌</div>
+                    <div class="detail-value">
+                        <span class="badge badge-${getSourceClass(detail.source)}">
+                            ${escapeHtml(detail.source || '-')}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">类型</div>
+                    <div class="detail-value">
+                        <span class="badge badge-${getCategoryClass(detail.category)}">
+                            ${escapeHtml(detail.category || '-')}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">系列</div>
+                    <div class="detail-value">${escapeHtml(detail.series || '-')}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">状态</div>
+                    <div class="detail-value">
+                        <span class="badge ${detail.status === '在售' ? 'badge-active' : 'badge-inactive'}">
+                            ${escapeHtml(detail.status || '-')}
+                        </span>
+                    </div>
+                </div>
+                ${detail.description ? `
+                <div class="detail-row" style="flex-direction: column;">
+                    <div class="detail-label" style="width: 100%; margin-bottom: 5px;">描述</div>
+                    <div class="detail-value" style="line-height: 1.6;">${escapeHtml(detail.description)}</div>
+                </div>
+                ` : ''}
+                ${detail.product_url ? `
+                <div class="detail-row">
+                    <div class="detail-label">产品链接</div>
+                    <div class="detail-value">
+                        <a href="${escapeHtml(detail.product_url)}" target="_blank" style="word-break: break-all;">
+                            ${escapeHtml(detail.product_url)}
+                        </a>
+                    </div>
+                </div>
+                ` : ''}
+                <div class="detail-row">
+                    <div class="detail-label">创建时间</div>
+                    <div class="detail-value">${formatDate(detail.created_at)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">更新时间</div>
+                    <div class="detail-value">${formatDate(detail.updated_at)}</div>
+                </div>
+                ${coreSpecsHtml}
+                ${otherSpecsHtml}
+                ${linksHtml}
+            `;
+        }
+
+        function getLinkTypeClass(type) {
+            switch(type) {
+                case '彩页': return 'huawei';
+                case '手册': return 'h3c';
+                case '规格参数': return 'ruijie';
+                case '白皮书': return 'switch';
+                case '产品详情': return 'wireless';
+                default: return 'info';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('show');
+        }
+
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', refreshData);
+    </script>
+</body>
+</html>

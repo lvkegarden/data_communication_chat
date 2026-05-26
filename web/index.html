@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数通产品智能体 - 项目入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+        .status-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .status-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .status-item.error {
+            border-left-color: #dc3545;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .status-dot.online {
+            background: #28a745;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.6);
+        }
+        .status-dot.offline {
+            background: #dc3545;
+        }
+        .status-info {
+            flex: 1;
+        }
+        .status-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+        .status-detail {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .page-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
+        .page-card.recommended::before {
+            content: '推荐';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 4px 35px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+        }
+        .page-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .page-card.chat .page-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .page-card.agent .page-icon {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .page-card.intent .page-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .page-card.collect .page-icon {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        .page-card.api .page-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .page-title {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .page-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .page-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .page-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .page-tag.core {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        .page-tag.tool {
+            background: rgba(245, 87, 108, 0.1);
+            color: #f5576c;
+        }
+        .page-tag.test {
+            background: rgba(252, 74, 26, 0.1);
+            color: #fc4a1a;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        .refresh-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 数通产品智能体</h1>
+            <p>智能产品分析与咨询平台</p>
+        </div>
+
+        <div class="status-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="status-title">
+                    <span>🛠️</span>
+                    服务状态
+                </div>
+                <button class="refresh-btn" onclick="checkStatus()">刷新状态</button>
+            </div>
+            <div class="status-list">
+                <div class="status-item" id="java-status">
+                    <div class="status-dot" id="java-dot"></div>
+                    <div class="status-info">
+                        <div class="status-name">Spring Boot (Java)</div>
+                        <div class="status-detail" id="java-detail">检查中...</div>
+                    </div>
+                </div>
+                <div class="status-item" id="python-status">
+                    <div class="status-dot" id="python-dot"></div>
+                    <div class="status-info">
+                        <div class="status-name">LangGraph (Python)</div>
+                        <div class="status-detail" id="python-detail">检查中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pages-grid">
+            <a href="product_agent.html" class="page-card agent recommended">
+                <div class="page-icon">🤖</div>
+                <div class="page-title">产品智能体</div>
+                <div class="page-desc">数通产品智能体专用页面，支持产品介绍、竞品分析、产品查询等功能，带有预览+发送双按钮。</div>
+                <div class="page-tags">
+                    <span class="page-tag core">核心功能</span>
+                    <span class="page-tag core">推荐使用</span>
+                </div>
+            </a>
+
+            <a href="chat.html" class="page-card chat">
+                <div class="page-icon">💬</div>
+                <div class="page-title">聊天页面</div>
+                <div class="page-desc">旧版通用聊天页面，支持基本对话功能，带有预览+发送按钮。</div>
+                <div class="page-tags">
+                    <span class="page-tag.core">基础功能</span>
+                </div>
+            </a>
+
+            <a href="intent_test.html" class="page-card intent">
+                <div class="page-icon">🎯</div>
+                <div class="page-title">意图识别测试</div>
+                <div class="page-desc">测试意图识别功能，可以查看意图分类结果和实体提取。</div>
+                <div class="page-tags">
+                    <span class="page-tag.test">测试工具</span>
+                </div>
+            </a>
+
+            <a href="collect.html" class="page-card collect">
+                <div class="page-icon">📥</div>
+                <div class="page-title">数据采集</div>
+                <div class="page-desc">产品数据采集工具，支持从官网爬取产品信息。</div>
+                <div class="page-tags">
+                    <span class="page-tag.tool">管理工具</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 数通产品智能体 | 运行在 Spring Boot + LangGraph 架构上</p>
+        </div>
+    </div>
+
+    <script>
+        async function checkStatus() {
+            document.getElementById('java-dot').className = 'status-dot';
+            document.getElementById('python-dot').className = 'status-dot';
+            document.getElementById('java-detail').textContent = '检查中...';
+            document.getElementById('python-detail').textContent = '检查中...';
+
+            try {
+                const javaResponse = await fetch('/api/product-data/detail/RG-AP820C', { signal: AbortSignal.timeout(5000) });
+                const javaData = await javaResponse.json();
+                if (javaData.success) {
+                    document.getElementById('java-dot').className = 'status-dot online';
+                    document.getElementById('java-detail').textContent = '运行中 · 端口 8080';
+                    document.getElementById('java-status').className = 'status-item';
+                } else {
+                    document.getElementById('java-dot').className = 'status-dot offline';
+                    document.getElementById('java-detail').textContent = '连接异常';
+                    document.getElementById('java-status').className = 'status-item error';
+                }
+            } catch (e) {
+                document.getElementById('java-dot').className = 'status-dot offline';
+                document.getElementById('java-detail').textContent = '无法连接 · ' + e.message;
+                document.getElementById('java-status').className = 'status-item error';
+            }
+
+            try {
+                const pythonResponse = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: 'status_check', message: '你好', flag: 'y' }),
+                    signal: AbortSignal.timeout(10000)
+                });
+                const pythonData = await pythonResponse.json();
+                if (pythonData.success) {
+                    document.getElementById('python-dot').className = 'status-dot online';
+                    document.getElementById('python-detail').textContent = '运行中 · 端口 5001';
+                    document.getElementById('python-status').className = 'status-item';
+                } else {
+                    document.getElementById('python-dot').className = 'status-dot offline';
+                    document.getElementById('python-detail').textContent = '连接异常';
+                    document.getElementById('python-status').className = 'status-item error';
+                }
+            } catch (e) {
+                document.getElementById('python-dot').className = 'status-dot offline';
+                document.getElementById('python-detail').textContent = '无法连接 · ' + e.message;
+                document.getElementById('python-status').className = 'status-item error';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkStatus);
+    </script>
+</body>
+</html>

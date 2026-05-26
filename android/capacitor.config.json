@@ -1,0 +1,22 @@
+{
+  "appId": "com.localrest.mobile",
+  "appName": "数通产品智能体",
+  "webDir": "web",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000
+    },
+    "Sqlite": {
+      "iosDatabaseLocation": "Library/CapacitorDatabase",
+      "androidIsEncryption": false,
+      "androidBiometric": {
+        "isBiometricAuthentication": false
+      },
+      "iosIsEncryption": false
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

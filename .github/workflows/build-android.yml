@@ -1,0 +1,175 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main, master, develop]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: '发布类型'
+        default: 'debug'
+        required: true
+        type: choice
+        options:
+          - debug
+          - release
+      version_name:
+        description: '版本号 (如: 1.0.0)'
+        default: '1.0.0'
+        required: false
+
+env:
+  APP_NAME: 数通产品智能体
+  PACKAGE_NAME: com.localrest.mobile
+  JAVA_VERSION: '17'
+  NODE_VERSION: '20'
+  ANDROID_API_LEVEL: 34
+  ANDROID_BUILD_TOOLS: '34.0.0'
+  ANDROID_COMMANDLINE_TOOLS: '11076708'
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'android/package-lock.json'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: ${{ env.ANDROID_API_LEVEL }}
+          build-tools: ${{ env.ANDROID_BUILD_TOOLS }}
+          cmdline-tools: ${{ env.ANDROID_COMMANDLINE_TOOLS }}
+          packages: >
+            platform-tools
+            emulator
+            platforms;android-${{ env.ANDROID_API_LEVEL }}
+            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
+
+      - name: Accept Android Licenses
+        run: |
+          yes | sdkmanager --licenses || true
+
+      - name: Install Node.js dependencies
+        working-directory: android
+        run: npm ci
+
+      - name: Initialize Capacitor
+        working-directory: android
+        run: npx cap init "${{ env.APP_NAME }}" "${{ env.PACKAGE_NAME }}" --web-dir=web
+
+      - name: Add Android platform
+        working-directory: android
+        run: npx cap add android
+
+      - name: Prepare database
+        run: |
+          if [ -f "data/localrest.db" ]; then
+            echo "Found database in data/ directory"
+            cp data/localrest.db android/assets/localrest.db
+          else
+            echo "No database found, using sample data"
+          fi
+
+      - name: Sync Capacitor
+        working-directory: android
+        run: npx cap sync
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.5'
+
+      - name: Build APK (Debug)
+        if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
+        working-directory: android/android
+        run: ./gradlew assembleDebug
+
+      - name: Build APK (Release)
+        if: ${{ github.event.inputs.release_type == 'release' }}
+        working-directory: android/android
+        env:
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_FILE" ]; then
+            echo "Using signing keys..."
+            echo "$KEYSTORE_FILE" | base64 -d > keystore.jks
+            ./gradlew assembleRelease \
+              -Pandroid.injected.signing.store.file=$(pwd)/keystore.jks \
+              -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
+              -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+              -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+          else
+            echo "No signing keys found, building unsigned release"
+            ./gradlew assembleRelease
+          fi
+
+      - name: Upload Debug APK
+        if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: android/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Upload Release APK
+        if: ${{ github.event.inputs.release_type == 'release' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: android/android/app/build/outputs/apk/release/app-release*.apk
+          retention-days: 30
+
+      - name: Upload Mapping File (Release)
+        if: ${{ github.event.inputs.release_type == 'release' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapping
+          path: android/android/app/build/outputs/mapping/release/mapping.txt
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Get APK Info
+        run: |
+          DEBUG_APK="android/android/app/build/outputs/apk/debug/app-debug.apk"
+          RELEASE_APK="android/android/app/build/outputs/apk/release/app-release.apk"
+          
+          if [ -f "$DEBUG_APK" ]; then
+            echo "=== Debug APK Info ==="
+            ls -lh $DEBUG_APK
+          fi
+          
+          if [ -f "$RELEASE_APK" ]; then
+            echo "=== Release APK Info ==="
+            ls -lh $RELEASE_APK
+          fi
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            android/android/app/build/outputs/apk/debug/app-debug.apk
+            android/android/app/build/outputs/apk/release/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

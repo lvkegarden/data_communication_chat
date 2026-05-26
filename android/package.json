@@ -1,0 +1,22 @@
+{
+  "name": "localrest-android",
+  "version": "1.0.0",
+  "description": "数通产品智能体 Android 应用",
+  "main": "web/index.html",
+  "scripts": {
+    "init": "npm install && npx cap init",
+    "sync": "npx cap sync",
+    "build:debug": "cd android && ./gradlew assembleDebug",
+    "build:release": "cd android && ./gradlew assembleRelease",
+    "open": "npx cap open android",
+    "add:android": "npx cap add android",
+    "sync:all": "npx cap sync && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "6.1.2",
+    "@capacitor/cli": "6.1.2",
+    "@capacitor/android": "6.1.2",
+    "@capacitor-community/sqlite": "6.0.1",
+    "@capacitor/network": "6.1.0"
+  }
+}

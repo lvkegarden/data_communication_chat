@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数通产品智能助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+        }
+        .sidebar {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+        .sidebar-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-title span {
+            font-size: 1.8rem;
+        }
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quick-action-btn {
+            padding: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .quick-action-btn:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        .quick-action-btn.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+        .quick-action-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .quick-action-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .quick-action-desc {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        .product-form {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+        .product-form.show {
+            display: flex;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-header {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-header h1 {
+            color: white;
+            font-size: 1.3rem;
+        }
+        .clear-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .chat-message {
+            display: flex;
+            margin-bottom: 24px;
+            align-items: flex-start;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+        .chat-message.user .chat-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            margin-right: 12px;
+        }
+        .chat-message.bot .chat-content {
+            background: white;
+            color: #333;
+            border-radius: 18px 18px 18px 4px;
+            margin-left: 12px;
+            border: 1px solid #e9ecef;
+            max-width: 80%;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .chat-message.bot .chat-avatar {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chat-message.user .chat-avatar {
+            background: rgba(102, 126, 234, 0.2);
+        }
+        .chat-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 6px;
+            text-align: right;
+        }
+        .chat-message.user .chat-time {
+            text-align: left;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+        }
+        .typing-indicator span {
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            gap: 12px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 30px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-input-area input:focus {
+            border-color: #667eea;
+        }
+        .chat-input-area input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+        .preview-btn {
+            padding: 0 24px;
+            height: 50px;
+            border: none;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .preview-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+        .preview-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .submit-btn {
+            padding: 0 28px;
+            height: 50px;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .payload-preview {
+            background: #1e1e1e;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 30px;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .payload-preview.show {
+            display: block;
+        }
+        .payload-preview h4 {
+            color: #569cd6;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .payload-preview pre {
+            background: #2d2d2d;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .json-key { color: #569cd6; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .json-null { color: #858585; }
+        .welcome-message {
+            text-align: center;
+            padding: 60px 40px;
+            color: #666;
+        }
+        .welcome-message h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .welcome-message p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #888;
+        }
+        .welcome-tips {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .welcome-tip {
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .welcome-tip:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        .form-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .form-btn-group button {
+            flex: 1;
+        }
+        .preview-btn-sm {
+            padding: 12px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .preview-btn-sm:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+        .preview-btn-sm:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .submit-btn-sm {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn-sm:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .submit-btn-sm:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-title">
+            <span>🌐</span>
+            数通产品智能助手
+        </div>
+
+        <div class="quick-actions">
+            <div class="quick-action-btn" onclick="showProductIntroForm()">
+                <div class="quick-action-icon">📝</div>
+                <div class="quick-action-title">生成产品介绍</div>
+                <div class="quick-action-desc">输入产品型号，自动生成专业产品介绍</div>
+            </div>
+
+            <div class="quick-action-btn" onclick="showCompetitorAnalysisForm()">
+                <div class="quick-action-icon">🔍</div>
+                <div class="quick-action-title">生成竞品分析</div>
+                <div class="quick-action-desc">对比目标产品与竞品，输出SWOT分析报告</div>
+            </div>
+
+            <div class="quick-action-btn" onclick="showProductQueryForm()">
+                <div class="quick-action-icon">📦</div>
+                <div class="quick-action-title">产品查询</div>
+                <div class="quick-action-desc">查询产品列表、规格信息、对比数据</div>
+            </div>
+
+            <div class="quick-action-btn" onclick="showFreeChatForm()">
+                <div class="quick-action-icon">💬</div>
+                <div class="quick-action-title">自由对话</div>
+                <div class="quick-action-desc">直接与AI对话，咨询任何产品相关问题</div>
+            </div>
+        </div>
+
+        <div class="product-form" id="form-product-intro">
+            <h4 style="color: #667eea; margin-bottom: 8px;">📝 产品介绍</h4>
+            <div class="form-group">
+                <label>产品型号</label>
+                <input type="text" id="intro-product-code" placeholder="例如: RG-AP820C">
+            </div>
+            <div class="form-group">
+                <label>额外要求（可选）</label>
+                <textarea id="intro-extra-requirements" placeholder="例如: 重点突出无线性能..."></textarea>
+            </div>
+            <div class="form-btn-group">
+                <button class="preview-btn-sm" id="btn-preview-intro" onclick="previewProductIntro()">预览</button>
+                <button class="submit-btn-sm" id="btn-submit-intro" onclick="submitProductIntro()" disabled>发送</button>
+            </div>
+        </div>
+
+        <div class="product-form" id="form-competitor-analysis">
+            <h4 style="color: #667eea; margin-bottom: 8px;">🔍 竞品分析</h4>
+            <div class="form-group">
+                <label>目标产品型号</label>
+                <input type="text" id="analysis-target-code" placeholder="例如: RG-AP820C">
+            </div>
+            <div class="form-btn-group">
+                <button class="preview-btn-sm" id="btn-preview-analysis" onclick="previewCompetitorAnalysis()">预览</button>
+                <button class="submit-btn-sm" id="btn-submit-analysis" onclick="submitCompetitorAnalysis()" disabled>发送</button>
+            </div>
+        </div>
+
+        <div class="product-form" id="form-product-query">
+            <h4 style="color: #667eea; margin-bottom: 8px;">📦 产品查询</h4>
+            <div class="form-group">
+                <label>搜索关键词</label>
+                <input type="text" id="query-keyword" placeholder="例如: 交换机、AP、RG-">
+            </div>
+            <div class="form-group">
+                <label>品牌筛选</label>
+                <select id="query-brand">
+                    <option value="">全部</option>
+                    <option value="锐捷">锐捷</option>
+                    <option value="华为">华为</option>
+                    <option value="H3C">H3C</option>
+                </select>
+            </div>
+            <div class="form-btn-group">
+                <button class="preview-btn-sm" id="btn-preview-query" onclick="previewProductQuery()">预览</button>
+                <button class="submit-btn-sm" id="btn-submit-query" onclick="submitProductQuery()" disabled>发送</button>
+            </div>
+        </div>
+
+        <div class="product-form show" id="form-free-chat">
+            <h4 style="color: #667eea; margin-bottom: 8px;">💬 自由对话</h4>
+            <div class="form-group">
+                <label>输入问题</label>
+                <textarea id="free-chat-message" placeholder="例如: 锐捷有哪些主打产品？"></textarea>
+            </div>
+            <div class="form-btn-group">
+                <button class="preview-btn-sm" id="btn-preview-free" onclick="previewFreeChat()">预览</button>
+                <button class="submit-btn-sm" id="btn-submit-free" onclick="submitFreeChat()" disabled>发送</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="chat-header">
+            <h1>💬 对话窗口</h1>
+            <div style="display:flex;gap:8px;">
+                <button class="clear-btn" onclick="testMarkdown()">测试表格</button>
+                <button class="clear-btn" onclick="clearChat()">清空对话</button>
+            </div>
+        </div>
+
+        <div class="chat-history" id="chat-history">
+            <div class="welcome-message">
+                <h3>👋 欢迎使用数通产品智能助手</h3>
+                <p>我可以帮你生成产品介绍、竞品分析、查询产品信息等</p>
+                <div class="welcome-tips">
+                    <div class="welcome-tip" onclick="useTip('请为RG-AP820C生成产品介绍')">生成产品介绍</div>
+                    <div class="welcome-tip" onclick="useTip('请为RG-AP820C生成竞品分析')">生成竞品分析</div>
+                    <div class="welcome-tip" onclick="useTip('查询锐捷AP产品')">查询锐捷AP</div>
+                    <div class="welcome-tip" onclick="useTip('查看所有产品列表')">查看全部产品</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="输入消息..." onkeypress="handleChatKeypress(event)">
+            <button class="preview-btn" id="btn-preview-chat" onclick="prepareChat()">预览</button>
+            <button class="submit-btn" id="btn-submit-chat" onclick="submitChat()" disabled>发送</button>
+        </div>
+
+        <div class="payload-preview" id="payload-preview">
+            <h4>📤 准备发送给大模型的 Prompt 报文：</h4>
+            <pre id="payload-content"></pre>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        let chatSessionId = 'web-' + Date.now();
+
+        let pendingAction = null;
+        let pendingMessage = null;
+        let pendingPayload = null;
+        let pendingPreviewData = null;
+
+        function showProductIntroForm() {
+            hideAllForms();
+            document.getElementById('form-product-intro').classList.add('show');
+        }
+
+        function showCompetitorAnalysisForm() {
+            hideAllForms();
+            document.getElementById('form-competitor-analysis').classList.add('show');
+        }
+
+        function showProductQueryForm() {
+            hideAllForms();
+            document.getElementById('form-product-query').classList.add('show');
+        }
+
+        function showFreeChatForm() {
+            hideAllForms();
+            document.getElementById('form-free-chat').classList.add('show');
+        }
+
+        function hideAllForms() {
+            document.querySelectorAll('.product-form').forEach(f => f.classList.remove('show'));
+        }
+
+        function addChatMessage(content, isUser = false) {
+            const history = document.getElementById('chat-history');
+            const welcome = history.querySelector('.welcome-message');
+            if (welcome) welcome.remove();
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            
+            let displayContent;
+            if (isUser) {
+                displayContent = escapeHtml(content);
+            } else {
+                displayContent = parseMarkdown(content);
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="chat-avatar">${isUser ? '👤' : '🤖'}</div>
+                <div class="chat-content">
+                    ${displayContent}
+                    <div class="chat-time">${time}</div>
+                </div>
+            `;
+            history.appendChild(messageDiv);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const history = document.getElementById('chat-history');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message bot';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-content">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            history.appendChild(typingDiv);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function parseMarkdown(text) {
+            if (!text) return '';
+            
+            const blocks = [];
+            const lines = text.split('\n');
+            let currentBlock = [];
+            let inTable = false;
+            let inCodeBlock = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                if (line.startsWith('```')) {
+                    if (inCodeBlock) {
+                        blocks.push({ type: 'code', content: currentBlock.join('\n') });
+                        currentBlock = [];
+                        inCodeBlock = false;
+                    } else {
+                        if (currentBlock.length > 0) {
+                            blocks.push({ type: 'text', content: currentBlock.join('\n') });
+                            currentBlock = [];
+                        }
+                        inCodeBlock = true;
+                    }
+                    continue;
+                }
+                
+                if (inCodeBlock) {
+                    currentBlock.push(line);
+                    continue;
+                }
+                
+                if (line.startsWith('|') && line.endsWith('|')) {
+                    if (!inTable) {
+                        if (currentBlock.length > 0) {
+                            blocks.push({ type: 'text', content: currentBlock.join('\n') });
+                            currentBlock = [];
+                        }
+                        inTable = true;
+                    }
+                    currentBlock.push(line);
+                } else if (inTable) {
+                    blocks.push({ type: 'table', content: currentBlock.join('\n') });
+                    currentBlock = [];
+                    inTable = false;
+                    if (line.trim()) {
+                        currentBlock.push(line);
+                    }
+                } else if (line.trim() === '') {
+                    if (currentBlock.length > 0) {
+                        blocks.push({ type: 'text', content: currentBlock.join('\n') });
+                        currentBlock = [];
+                    }
+                } else {
+                    currentBlock.push(line);
+                }
+            }
+            
+            if (inCodeBlock && currentBlock.length > 0) {
+                blocks.push({ type: 'code', content: currentBlock.join('\n') });
+            } else if (inTable && currentBlock.length > 0) {
+                blocks.push({ type: 'table', content: currentBlock.join('\n') });
+            } else if (currentBlock.length > 0) {
+                blocks.push({ type: 'text', content: currentBlock.join('\n') });
+            }
+            
+            let result = '';
+            for (const block of blocks) {
+                if (block.type === 'code') {
+                    result += `<pre style="background:#f8f9fa;padding:12px;border-radius:6px;overflow-x:auto;border:1px solid #e9ecef;margin:12px 0;"><code>${escapeHtml(block.content)}</code></pre>`;
+                } else if (block.type === 'table') {
+                    result += renderMarkdownTable(block.content);
+                } else {
+                    result += parseTextBlock(block.content);
+                }
+            }
+            
+            return result;
+        }
+        
+        function parseTextBlock(text) {
+            if (!text) return '';
+            
+            let html = escapeHtml(text);
+            
+            html = html.replace(/^#\s+(.+)$/gm, '<h1 style="color:#333;font-size:1.4rem;margin-bottom:12px;font-weight:600;border-bottom:2px solid #667eea;padding-bottom:8px;">$1</h1>');
+            html = html.replace(/^##\s+(.+)$/gm, '<h2 style="color:#444;font-size:1.2rem;margin-top:20px;margin-bottom:10px;font-weight:600;">$1</h2>');
+            html = html.replace(/^###\s+(.+)$/gm, '<h3 style="color:#555;font-size:1.05rem;margin-top:16px;margin-bottom:8px;font-weight:600;">$1</h3>');
+            html = html.replace(/^####\s+(.+)$/gm, '<h4 style="color:#666;font-size:1rem;margin-top:12px;margin-bottom:6px;font-weight:600;">$1</h4>');
+            
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong style="font-weight:700;">$1</strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:600;">$1</strong>');
+            
+            html = html.replace(/^---+$/gm, '<hr style="border:none;border-top:1px solid #e9ecef;margin:16px 0;">');
+            
+            html = html.replace(/^-\s+(.+)$/gm, '<li style="margin:4px 0;padding-left:8px;">$1</li>');
+            html = html.replace(/^(\d+)\.\s+(.+)$/gm, '<li style="margin:4px 0;padding-left:8px;">$2</li>');
+            
+            html = html.replace(/(<li[^>]*>[\s\S]*?<\/li>)/g, function(match) {
+                return `<ul style="margin:8px 0;padding-left:24px;">${match}</ul>`;
+            });
+            
+            html = html.replace(/\n/g, '<br>');
+            
+            return `<div style="margin:8px 0;line-height:1.6;">${html}</div>`;
+        }
+        
+        function renderMarkdownTable(tableText) {
+            const lines = tableText.split('\n').filter(line => line.trim());
+            if (lines.length < 2) return escapeHtml(tableText);
+            
+            const rows = lines.map(line => {
+                return line.slice(1, -1).split('|').map(cell => cell.trim());
+            });
+            
+            const headerRow = rows[0];
+            const separatorRow = rows[1];
+            const dataRows = rows.slice(2).filter(row => row.some(cell => cell.trim()));
+            
+            if (!headerRow.length) return escapeHtml(tableText);
+            
+            let html = '<div style="overflow-x:auto;margin:12px 0;">';
+            html += '<table style="width:100%;border-collapse:collapse;font-size:13px;border:1px solid #e9ecef;border-radius:8px;overflow:hidden;">';
+            
+            html += '<thead><tr style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;">';
+            headerRow.forEach(cell => {
+                html += `<th style="padding:12px 10px;text-align:left;font-weight:600;border-bottom:2px solid #667eea;white-space:nowrap;">${cell || '&nbsp;'}</th>`;
+            });
+            html += '</tr></thead>';
+            
+            if (dataRows.length > 0) {
+                html += '<tbody>';
+                dataRows.forEach((row, index) => {
+                    const bgColor = index % 2 === 0 ? '#ffffff' : '#f8f9fa';
+                    html += `<tr style="background:${bgColor};border-bottom:1px solid #e9ecef;">`;
+                    row.forEach((cell, cellIndex) => {
+                        const isFirstColumn = cellIndex === 0;
+                        const fontWeight = isFirstColumn ? '600' : '400';
+                        const color = isFirstColumn ? '#495057' : '#666';
+                        const whiteSpace = isFirstColumn ? 'nowrap' : 'normal';
+                        html += `<td style="padding:10px;border-right:1px solid #e9ecef;font-weight:${fontWeight};color:${color};white-space:${whiteSpace};">${cell || '&nbsp;'}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody>';
+            }
+            
+            html += '</table></div>';
+            return html;
+        }
+
+        function highlightJson(jsonString) {
+            if (!jsonString) return '<span style="color: #858585;">null</span>';
+            let result = jsonString
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            result = result.replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:');
+            result = result.replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>');
+            result = result.replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>');
+            result = result.replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>');
+            result = result.replace(/: null/g, ': <span class="json-null">null</span>');
+            return result;
+        }
+
+        function formatJsonPreview(data) {
+            if (!data) return '';
+            try {
+                if (typeof data === 'string') {
+                    try {
+                        const parsed = JSON.parse(data);
+                        return JSON.stringify(parsed, null, 2);
+                    } catch {
+                        return data;
+                    }
+                }
+                return JSON.stringify(data, null, 2);
+            } catch {
+                return typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+            }
+        }
+
+        function showPayloadPreview(payloadData) {
+            const preview = document.getElementById('payload-preview');
+            const content = document.getElementById('payload-content');
+            if (!payloadData) {
+                content.innerHTML = '<span style="color: #858585;">预览数据为空</span>';
+                preview.classList.add('show');
+                return;
+            }
+            const formattedJson = formatJsonPreview(payloadData);
+            const highlightedHtml = highlightJson(formattedJson);
+            content.innerHTML = highlightedHtml;
+            preview.classList.add('show');
+        }
+
+        function hidePayloadPreview() {
+            const preview = document.getElementById('payload-preview');
+            preview.classList.remove('show');
+        }
+
+        function setFormButtonsEnabled(action, previewEnabled, submitEnabled) {
+            const previewBtn = document.getElementById(`btn-preview-${action}`);
+            const submitBtn = document.getElementById(`btn-submit-${action}`);
+            if (previewBtn) previewBtn.disabled = !previewEnabled;
+            if (submitBtn) submitBtn.disabled = !submitEnabled;
+        }
+
+        function setChatButtonsEnabled(previewEnabled, submitEnabled) {
+            document.getElementById('btn-preview-chat').disabled = !previewEnabled;
+            document.getElementById('btn-submit-chat').disabled = !submitEnabled;
+            document.getElementById('chat-input').disabled = !previewEnabled;
+        }
+
+        function useTip(text) {
+            document.getElementById('chat-input').value = text;
+            prepareChat();
+        }
+
+        async function sendToAPI(message, flag) {
+            return await fetch(`${API_BASE}/chat/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    session_id: chatSessionId,
+                    message: message,
+                    flag: flag
+                })
+            }).then(r => r.json());
+        }
+
+        // ===== 产品介绍 =====
+
+        async function previewProductIntro() {
+            const productCode = document.getElementById('intro-product-code').value.trim();
+            const extra = document.getElementById('intro-extra-requirements').value.trim();
+
+            if (!productCode) {
+                alert('请输入产品型号');
+                return;
+            }
+
+            let message = `请为${productCode}生成产品介绍`;
+            if (extra) {
+                message += `。${extra}`;
+            }
+
+            pendingAction = 'intro';
+            pendingMessage = message;
+            pendingPayload = { productCode, extra };
+
+            setFormButtonsEnabled('intro', false, false);
+
+            try {
+                const data = await sendToAPI(message, 'n');
+                if (data.success) {
+                    document.getElementById('intro-product-code').value = '';
+                    document.getElementById('intro-extra-requirements').value = '';
+                    addChatMessage(message, true);
+                    showPayloadPreview(data.preview);
+                    setFormButtonsEnabled('intro', false, true);
+                } else {
+                    addChatMessage('预览失败: ' + data.error);
+                    setFormButtonsEnabled('intro', true, false);
+                }
+            } catch (error) {
+                addChatMessage('预览请求失败: ' + error.message);
+                setFormButtonsEnabled('intro', true, false);
+            }
+        }
+
+        async function submitProductIntro() {
+            if (!pendingMessage || pendingAction !== 'intro') return;
+
+            setFormButtonsEnabled('intro', false, false);
+            addTypingIndicator();
+
+            try {
+                const data = await sendToAPI(pendingMessage, 'y');
+                removeTypingIndicator();
+                if (data.success) {
+                    addChatMessage(data.message);
+                } else {
+                    addChatMessage('抱歉: ' + data.error);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addChatMessage('请求失败: ' + error.message);
+            } finally {
+                pendingAction = null;
+                pendingMessage = null;
+                pendingPayload = null;
+                hidePayloadPreview();
+                setFormButtonsEnabled('intro', true, false);
+            }
+        }
+
+        // ===== 竞品分析 =====
+
+        async function previewCompetitorAnalysis() {
+            const targetCode = document.getElementById('analysis-target-code').value.trim();
+            if (!targetCode) {
+                alert('请输入目标产品型号');
+                return;
+            }
+
+            const message = `请为${targetCode}生成竞品分析`;
+
+            pendingAction = 'analysis';
+            pendingMessage = message;
+            pendingPayload = { targetCode };
+
+            setFormButtonsEnabled('analysis', false, false);
+
+            try {
+                const data = await sendToAPI(message, 'n');
+                if (data.success) {
+                    document.getElementById('analysis-target-code').value = '';
+                    addChatMessage(message, true);
+                    showPayloadPreview(data.preview);
+                    setFormButtonsEnabled('analysis', false, true);
+                } else {
+                    addChatMessage('预览失败: ' + data.error);
+                    setFormButtonsEnabled('analysis', true, false);
+                }
+            } catch (error) {
+                addChatMessage('预览请求失败: ' + error.message);
+                setFormButtonsEnabled('analysis', true, false);
+            }
+        }
+
+        async function submitCompetitorAnalysis() {
+            if (!pendingMessage || pendingAction !== 'analysis') return;
+
+            setFormButtonsEnabled('analysis', false, false);
+            addTypingIndicator();
+
+            try {
+                const data = await sendToAPI(pendingMessage, 'y');
+                removeTypingIndicator();
+                if (data.success) {
+                    addChatMessage(data.message);
+                } else {
+                    addChatMessage('抱歉: ' + data.error);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addChatMessage('请求失败: ' + error.message);
+            } finally {
+                pendingAction = null;
+                pendingMessage = null;
+                pendingPayload = null;
+                hidePayloadPreview();
+                setFormButtonsEnabled('analysis', true, false);
+            }
+        }
+
+        // ===== 产品查询 =====
+
+        async function previewProductQuery() {
+            const keyword = document.getElementById('query-keyword').value.trim();
+            const brand = document.getElementById('query-brand').value;
+
+            let message = '';
+            if (keyword && brand) {
+                message = `查询${brand}的${keyword}产品`;
+            } else if (keyword) {
+                message = `查询产品 ${keyword}`;
+            } else if (brand) {
+                message = `查询${brand}所有产品`;
+            } else {
+                message = '查看所有产品列表';
+            }
+
+            pendingAction = 'query';
+            pendingMessage = message;
+            pendingPayload = { keyword, brand };
+
+            setFormButtonsEnabled('query', false, false);
+
+            try {
+                const data = await sendToAPI(message, 'n');
+                if (data.success) {
+                    document.getElementById('query-keyword').value = '';
+                    document.getElementById('query-brand').value = '';
+                    addChatMessage(message, true);
+                    showPayloadPreview(data.preview);
+                    setFormButtonsEnabled('query', false, true);
+                } else {
+                    addChatMessage('预览失败: ' + data.error);
+                    setFormButtonsEnabled('query', true, false);
+                }
+            } catch (error) {
+                addChatMessage('预览请求失败: ' + error.message);
+                setFormButtonsEnabled('query', true, false);
+            }
+        }
+
+        async function submitProductQuery() {
+            if (!pendingMessage || pendingAction !== 'query') return;
+
+            setFormButtonsEnabled('query', false, false);
+            addTypingIndicator();
+
+            try {
+                const data = await sendToAPI(pendingMessage, 'y');
+                removeTypingIndicator();
+                if (data.success) {
+                    addChatMessage(data.message);
+                } else {
+                    addChatMessage('抱歉: ' + data.error);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addChatMessage('请求失败: ' + error.message);
+            } finally {
+                pendingAction = null;
+                pendingMessage = null;
+                pendingPayload = null;
+                hidePayloadPreview();
+                setFormButtonsEnabled('query', true, false);
+            }
+        }
+
+        // ===== 自由对话 =====
+
+        async function previewFreeChat() {
+            const message = document.getElementById('free-chat-message').value.trim();
+            if (!message) {
+                alert('请输入问题');
+                return;
+            }
+
+            pendingAction = 'free';
+            pendingMessage = message;
+            pendingPayload = { message };
+
+            setFormButtonsEnabled('free', false, false);
+
+            try {
+                const data = await sendToAPI(message, 'n');
+                if (data.success) {
+                    document.getElementById('free-chat-message').value = '';
+                    addChatMessage(message, true);
+                    showPayloadPreview(data.preview);
+                    setFormButtonsEnabled('free', false, true);
+                } else {
+                    addChatMessage('预览失败: ' + data.error);
+                    setFormButtonsEnabled('free', true, false);
+                }
+            } catch (error) {
+                addChatMessage('预览请求失败: ' + error.message);
+                setFormButtonsEnabled('free', true, false);
+            }
+        }
+
+        async function submitFreeChat() {
+            if (!pendingMessage || pendingAction !== 'free') return;
+
+            setFormButtonsEnabled('free', false, false);
+            addTypingIndicator();
+
+            try {
+                const data = await sendToAPI(pendingMessage, 'y');
+                removeTypingIndicator();
+                if (data.success) {
+                    addChatMessage(data.message);
+                } else {
+                    addChatMessage('抱歉: ' + data.error);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addChatMessage('请求失败: ' + error.message);
+            } finally {
+                pendingAction = null;
+                pendingMessage = null;
+                pendingPayload = null;
+                hidePayloadPreview();
+                setFormButtonsEnabled('free', true, false);
+            }
+        }
+
+        // ===== 聊天输入框 =====
+
+        async function prepareChat() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            pendingAction = 'chat';
+            pendingMessage = message;
+            pendingPayload = { message };
+
+            setChatButtonsEnabled(false, false);
+
+            try {
+                const data = await sendToAPI(message, 'n');
+                if (data.success) {
+                    input.value = '';
+                    addChatMessage(message, true);
+                    showPayloadPreview(data.preview);
+                    setChatButtonsEnabled(false, true);
+                } else {
+                    addChatMessage('预览失败: ' + data.error);
+                    setChatButtonsEnabled(true, false);
+                }
+            } catch (error) {
+                addChatMessage('预览请求失败: ' + error.message);
+                setChatButtonsEnabled(true, false);
+            }
+        }
+
+        async function submitChat() {
+            if (!pendingMessage || pendingAction !== 'chat') return;
+
+            setChatButtonsEnabled(false, false);
+            addTypingIndicator();
+
+            try {
+                const data = await sendToAPI(pendingMessage, 'y');
+                removeTypingIndicator();
+                if (data.success) {
+                    addChatMessage(data.message);
+                } else {
+                    addChatMessage('抱歉: ' + data.error);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addChatMessage('请求失败: ' + error.message);
+            } finally {
+                pendingAction = null;
+                pendingMessage = null;
+                pendingPayload = null;
+                hidePayloadPreview();
+                setChatButtonsEnabled(true, false);
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const submitBtn = document.getElementById('btn-submit-chat');
+                if (!submitBtn.disabled && pendingMessage && pendingAction === 'chat') {
+                    submitChat();
+                } else {
+                    prepareChat();
+                }
+            }
+        }
+
+        function testMarkdown() {
+            const testContent = `# 测试 Markdown 解析
+
+## 一、标题测试
+
+### 1.1 三级标题
+
+这是普通文本，包含 **粗体文字**。
+
+## 二、表格测试
+
+| 参数维度 | 目标产品 | 竞品1 | 竞品2 | 竞品3 |
+|---------|---------|-------|-------|-------|
+| 产品品牌 | 华为 | 华三 | 锐捷 | 思科 |
+| 产品型号 | S5735-L-V2 | S5130 | RG-S5310 | Catalyst 9200 |
+| 产品定位 | 接入层交换机 | 接入层交换机 | 接入层交换机 | 接入层交换机 |
+
+## 三、列表测试
+
+- 无序列表项1
+- 无序列表项2
+- 无序列表项3
+
+1. 有序列表项1
+2. 有序列表项2
+3. 有序列表项3
+
+---
+
+这是分割线后的内容。
+
+| 产品 | 优势 | 劣势 |
+|-----|------|------|
+| 目标产品 | - 高可靠性<br>- 丰富的协议支持 | - 价格较高 |
+| 竞品1 | - 性价比高<br>- 部署简便 | - 高端功能较少 |
+
+## 四、总结
+
+通过 **全面测试**，验证 Markdown 解析功能。
+`;
+            addChatMessage(testContent, false);
+        }
+
+        function clearChat() {
+            chatSessionId = 'web-' + Date.now();
+            pendingAction = null;
+            pendingMessage = null;
+            pendingPayload = null;
+
+            ['intro', 'analysis', 'query', 'free'].forEach(a => {
+                setFormButtonsEnabled(a, true, false);
+            });
+            setChatButtonsEnabled(true, false);
+            hidePayloadPreview();
+
+            const history = document.getElementById('chat-history');
+            history.innerHTML = `
+                <div class="welcome-message">
+                    <h3>👋 对话已清空</h3>
+                    <p>有什么可以帮助你的吗？</p>
+                    <div class="welcome-tips">
+                        <div class="welcome-tip" onclick="useTip('请为RG-AP820C生成产品介绍')">生成产品介绍</div>
+                        <div class="welcome-tip" onclick="useTip('请为RG-AP820C生成竞品分析')">生成竞品分析</div>
+                        <div class="welcome-tip" onclick="useTip('查询锐捷AP产品')">查询锐捷AP</div>
+                        <div class="welcome-tip" onclick="useTip('查看所有产品列表')">查看全部产品</div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

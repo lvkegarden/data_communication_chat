@@ -1,0 +1,3617 @@
+{
+  "summary": {
+    "total_products": 30,
+    "total_matched": 58,
+    "total_missed": 84,
+    "total_extra": 67,
+    "avg_precision": 0.5167,
+    "avg_recall": 0.4572,
+    "avg_f1": 0.4702,
+    "by_brand": {
+      "华为": {
+        "count": 10,
+        "matched": 16,
+        "missed": 34,
+        "extra": 13,
+        "precision": 0.5,
+        "recall": 0.3667,
+        "f1": 0.4
+      },
+      "H3C": {
+        "count": 10,
+        "matched": 19,
+        "missed": 37,
+        "extra": 27,
+        "precision": 0.475,
+        "recall": 0.38,
+        "f1": 0.4189
+      },
+      "锐捷": {
+        "count": 10,
+        "matched": 23,
+        "missed": 13,
+        "extra": 27,
+        "precision": 0.575,
+        "recall": 0.625,
+        "f1": 0.5917
+      }
+    }
+  },
+  "results": [
+    {
+      "target": {
+        "code": "S5755-H",
+        "name": "华为 S5755-H 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 100
+        },
+        {
+          "code": "RG-S5310",
+          "name": "锐捷 RG-S5310 系列",
+          "brand": "锐捷",
+          "score": 100
+        },
+        {
+          "code": "S6520X-EI-G",
+          "name": "华三 S6520X-EI-G 系列",
+          "brand": "H3C",
+          "score": 92
+        },
+        {
+          "code": "S6520X-HI",
+          "name": "华三 S6520X-HI 系列",
+          "brand": "H3C",
+          "score": 92
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "S5560X-30C-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-54C-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750H-24GT4XS-HP-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750H-48GT4XS-HP-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5560X-30C-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "similarity": 0.6,
+          "local_score": 92
+        },
+        {
+          "doubao_code": "S5560X-54C-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "similarity": 0.6,
+          "local_score": 92
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "RG-S5750H-24GT4XS-HP-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310",
+            "similarity": 0.4
+          }
+        },
+        {
+          "doubao_code": "RG-S5750H-48GT4XS-HP-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310",
+            "similarity": 0.4
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 100,
+          "best_doubao_match": {
+            "code": "S5560X-30C-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "local_code": "RG-S5310",
+          "local_brand": "锐捷",
+          "local_score": 100,
+          "best_doubao_match": {
+            "code": "S5560X-30C-EI",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "local_code": "S6520X-HI",
+          "local_brand": "H3C",
+          "local_score": 92,
+          "best_doubao_match": {
+            "code": "S5560X-30C-EI",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "S5735-L-V2",
+        "name": "华为 S5735-L-V2 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5130S-LI",
+          "name": "华三 S5130S-LI 系列",
+          "brand": "H3C",
+          "score": 130
+        },
+        {
+          "code": "S5130S-SI",
+          "name": "华三 S5130S-SI 系列",
+          "brand": "H3C",
+          "score": 124
+        },
+        {
+          "code": "RG-S2910-L",
+          "name": "锐捷 RG-S2910-L 系列",
+          "brand": "锐捷",
+          "score": 117
+        },
+        {
+          "code": "RG-S2910XS-E",
+          "name": "锐捷 RG-S2910XS-E 系列",
+          "brand": "锐捷",
+          "score": 114
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-24GT4XS-P-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760-24GT4XS-P"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 130
+        },
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 130
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "RG-S5750-24GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.46153846153846156
+          }
+        },
+        {
+          "doubao_code": "RG-S5760-24GT4XS-P",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.48
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5130S-SI",
+          "local_brand": "H3C",
+          "local_score": 124,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.7368421052631579
+          }
+        },
+        {
+          "local_code": "RG-S2910-L",
+          "local_brand": "锐捷",
+          "local_score": 117,
+          "best_doubao_match": {
+            "code": "RG-S5750-24GT4XS-P-L",
+            "similarity": 0.4166666666666667
+          }
+        },
+        {
+          "local_code": "RG-S2910XS-E",
+          "local_brand": "锐捷",
+          "local_score": 114,
+          "best_doubao_match": {
+            "code": "RG-S5760-24GT4XS-P",
+            "similarity": 0.48
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "S5731-H",
+        "name": "华为 S5731-H 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5130",
+          "name": "华三 S5130 系列",
+          "brand": "H3C",
+          "score": 111
+        },
+        {
+          "code": "S5130S-HI-G",
+          "name": "华三 S5130S-HI-G 系列",
+          "brand": "H3C",
+          "score": 111
+        },
+        {
+          "code": "RG-S5760-X",
+          "name": "锐捷 RG-S5760-X 系列",
+          "brand": "锐捷",
+          "score": 103
+        },
+        {
+          "code": "RG-S5760-L",
+          "name": "锐捷 RG-S5760-L 系列",
+          "brand": "锐捷",
+          "score": 103
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-48GT4XS-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760-48GT4XS-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "similarity": 0.7,
+          "local_score": 111
+        },
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "similarity": 0.7,
+          "local_score": 111
+        },
+        {
+          "doubao_code": "RG-S5750-48GT4XS-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-X",
+          "local_brand": "锐捷",
+          "similarity": 0.6086956521739131,
+          "local_score": 103
+        },
+        {
+          "doubao_code": "RG-S5760-48GT4XS-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-X",
+          "local_brand": "锐捷",
+          "similarity": 0.6956521739130435,
+          "local_score": 103
+        }
+      ],
+      "missed": [],
+      "extra": [
+        {
+          "local_code": "S5130",
+          "local_brand": "H3C",
+          "local_score": 111,
+          "best_doubao_match": {
+            "code": "S5130S-52P-EI",
+            "similarity": 0.625
+          }
+        },
+        {
+          "local_code": "RG-S5760-L",
+          "local_brand": "锐捷",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "RG-S5760-48GT4XS-L",
+            "similarity": 0.6956521739130435
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "target": {
+        "code": "S5731-L",
+        "name": "华为 S5731-L 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5130S-LI",
+          "name": "华三 S5130S-LI 系列",
+          "brand": "H3C",
+          "score": 128
+        },
+        {
+          "code": "S5130S-SI",
+          "name": "华三 S5130S-SI 系列",
+          "brand": "H3C",
+          "score": 122
+        },
+        {
+          "code": "RG-S2910-L",
+          "name": "锐捷 RG-S2910-L 系列",
+          "brand": "锐捷",
+          "score": 115
+        },
+        {
+          "code": "RG-S5760-L",
+          "name": "锐捷 RG-S5760-L 系列",
+          "brand": "锐捷",
+          "score": 113
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-24GT4XS-P-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-48GT4XS-P-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 128
+        },
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 128
+        },
+        {
+          "doubao_code": "RG-S5750-24GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-L",
+          "local_brand": "锐捷",
+          "similarity": 0.5833333333333334,
+          "local_score": 113
+        },
+        {
+          "doubao_code": "RG-S5750-48GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-L",
+          "local_brand": "锐捷",
+          "similarity": 0.5833333333333334,
+          "local_score": 113
+        }
+      ],
+      "missed": [],
+      "extra": [
+        {
+          "local_code": "S5130S-SI",
+          "local_brand": "H3C",
+          "local_score": 122,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.7368421052631579
+          }
+        },
+        {
+          "local_code": "RG-S2910-L",
+          "local_brand": "锐捷",
+          "local_score": 115,
+          "best_doubao_match": {
+            "code": "RG-S5750-24GT4XS-P-L",
+            "similarity": 0.4166666666666667
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-Wi",
+        "name": "华为 AirEngine Wi 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "WA4320-EPON",
+          "name": "华三 WA4320-EPON 系列",
+          "brand": "H3C",
+          "score": 55
+        },
+        {
+          "code": "WA6520H-EGPON",
+          "name": "华三 WA6520H-EGPON 系列",
+          "brand": "H3C",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6528"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6628"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6820"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP860-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP880-I"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP960-EX"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "WA6528",
+          "doubao_brand": "H3C",
+          "local_code": "WA6520H-EGPON",
+          "local_brand": "H3C",
+          "similarity": 0.5555555555555556,
+          "local_score": 55
+        },
+        {
+          "doubao_code": "WA6820",
+          "doubao_brand": "H3C",
+          "local_code": "WA6520H-EGPON",
+          "local_brand": "H3C",
+          "similarity": 0.5555555555555556,
+          "local_score": 55
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "WA6628",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "WA6520H-EGPON",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "doubao_code": "RG-AP860-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA4320-EPON",
+            "similarity": 0.2222222222222222
+          }
+        },
+        {
+          "doubao_code": "RG-AP880-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA4320-EPON",
+            "similarity": 0.2222222222222222
+          }
+        },
+        {
+          "doubao_code": "RG-AP960-EX",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA4320-EPON",
+            "similarity": 0.3157894736842105
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "WA4320-EPON",
+          "local_brand": "H3C",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "WA6820",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 2,
+        "local_count": 2,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-8700系列",
+        "name": "华为 AirEngine 8700系列 系列"
+      },
+      "local_competitors": [],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6500-120"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6600-120"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6800-120"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP860-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP880-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP960-L"
+        }
+      ],
+      "matched": [],
+      "missed": [
+        {
+          "doubao_code": "WA6500-120",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "WA6600-120",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "WA6800-120",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP860-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP880-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP960-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        }
+      ],
+      "extra": [],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 0,
+        "local_count": 0,
+        "precision": 0,
+        "recall": 0.0,
+        "f1_score": 0
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-6700系列",
+        "name": "华为 AirEngine 6700系列 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "WA6520H-EGPON",
+          "name": "华三 WA6520H-EGPON 系列",
+          "brand": "H3C",
+          "score": 57
+        },
+        {
+          "code": "WA5320H-EPON",
+          "name": "华三 WA5320H-EPON 系列",
+          "brand": "H3C",
+          "score": 57
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6500-200"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6600-200"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6800-200"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP960-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP980-I"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP990-I"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "WA6500-200",
+          "doubao_brand": "H3C",
+          "local_code": "WA6520H-EGPON",
+          "local_brand": "H3C",
+          "similarity": 0.5714285714285714,
+          "local_score": 57
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "WA6600-200",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "WA6520H-EGPON",
+            "similarity": 0.47619047619047616
+          }
+        },
+        {
+          "doubao_code": "WA6800-200",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "WA6520H-EGPON",
+            "similarity": 0.47619047619047616
+          }
+        },
+        {
+          "doubao_code": "RG-AP960-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.21052631578947367
+          }
+        },
+        {
+          "doubao_code": "RG-AP980-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.21052631578947367
+          }
+        },
+        {
+          "doubao_code": "RG-AP990-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.21052631578947367
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "WA5320H-EPON",
+          "local_brand": "H3C",
+          "local_score": 57,
+          "best_doubao_match": {
+            "code": "WA6500-200",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 1,
+        "local_count": 2,
+        "precision": 0.5,
+        "recall": 0.1667,
+        "f1_score": 0.25
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-5700系列",
+        "name": "华为 AirEngine 5700系列 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "WA6520H-EGPON",
+          "name": "华三 WA6520H-EGPON 系列",
+          "brand": "H3C",
+          "score": 57
+        },
+        {
+          "code": "WA5320H-EPON",
+          "name": "华三 WA5320H-EPON 系列",
+          "brand": "H3C",
+          "score": 57
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6500-120"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6300-120"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6600-120"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP860-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP840-I"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP820-I"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "WA6500-120",
+          "doubao_brand": "H3C",
+          "local_code": "WA6520H-EGPON",
+          "local_brand": "H3C",
+          "similarity": 0.5714285714285714,
+          "local_score": 57
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "WA6300-120",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "WA6600-120",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "WA6520H-EGPON",
+            "similarity": 0.47619047619047616
+          }
+        },
+        {
+          "doubao_code": "RG-AP860-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.21052631578947367
+          }
+        },
+        {
+          "doubao_code": "RG-AP840-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.21052631578947367
+          }
+        },
+        {
+          "doubao_code": "RG-AP820-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "WA5320H-EPON",
+            "similarity": 0.3157894736842105
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "WA5320H-EPON",
+          "local_brand": "H3C",
+          "local_score": 57,
+          "best_doubao_match": {
+            "code": "WA6500-120",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 1,
+        "local_count": 2,
+        "precision": 0.5,
+        "recall": 0.1667,
+        "f1_score": 0.25
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-8776",
+        "name": "华为 AirEngine 8776 系列"
+      },
+      "local_competitors": [],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6500-120"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6300-120"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP860-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP880-L"
+        }
+      ],
+      "matched": [],
+      "missed": [
+        {
+          "doubao_code": "WA6500-120",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "WA6300-120",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP860-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP880-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        }
+      ],
+      "extra": [],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 0,
+        "local_count": 0,
+        "precision": 0,
+        "recall": 0.0,
+        "f1_score": 0
+      }
+    },
+    {
+      "target": {
+        "code": "AirEngine-8771",
+        "name": "华为 AirEngine 8771 系列"
+      },
+      "local_competitors": [],
+      "doubao_competitors": [
+        {
+          "brand": "H3C",
+          "code": "WA6528"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6628"
+        },
+        {
+          "brand": "H3C",
+          "code": "WA6820"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP860-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP880-I"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-AP960-EX"
+        }
+      ],
+      "matched": [],
+      "missed": [
+        {
+          "doubao_code": "WA6528",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "WA6628",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "WA6820",
+          "doubao_brand": "H3C",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP860-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP880-I",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        },
+        {
+          "doubao_code": "RG-AP960-EX",
+          "doubao_brand": "锐捷",
+          "best_local_match": null
+        }
+      ],
+      "extra": [],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 0,
+        "local_count": 0,
+        "precision": 0,
+        "recall": 0.0,
+        "f1_score": 0
+      }
+    },
+    {
+      "target": {
+        "code": "S5800",
+        "name": "华三 S5800 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 85
+        },
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 85
+        },
+        {
+          "code": "RG-S5315-E",
+          "name": "锐捷 RG-S5315-E 系列",
+          "brand": "锐捷",
+          "score": 85
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-H"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-26S4XS"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-26S4XSP"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-H",
+          "doubao_brand": "华为",
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "similarity": 0.8333333333333334,
+          "local_score": 85
+        },
+        {
+          "doubao_code": "S5735-S",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.7142857142857143,
+          "local_score": 55
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "RG-S5760C-26S4XS",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-26S4XSP",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.43478260869565216
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 85,
+          "best_doubao_match": {
+            "code": "RG-S5760C-26S4XS",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "local_code": "RG-S5315-E",
+          "local_brand": "锐捷",
+          "local_score": 85,
+          "best_doubao_match": {
+            "code": "S5735-H",
+            "similarity": 0.5714285714285714
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "S5500",
+        "name": "华三 S5500 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "RG-S5760-X",
+          "name": "锐捷 RG-S5760-X 系列",
+          "brand": "锐捷",
+          "score": 55
+        },
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5720-28P-LI-AC"
+        },
+        {
+          "brand": "华为",
+          "code": "S5720-52P-LI-AC"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-24GT4XS-P-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-48GT4XS-P-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "RG-S5750-24GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-X",
+          "local_brand": "锐捷",
+          "similarity": 0.5833333333333334,
+          "local_score": 55
+        },
+        {
+          "doubao_code": "RG-S5750-48GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5760-X",
+          "local_brand": "锐捷",
+          "similarity": 0.5833333333333334,
+          "local_score": 55
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5720-28P-LI-AC",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.4
+          }
+        },
+        {
+          "doubao_code": "S5720-52P-LI-AC",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5720-52P-LI-AC",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5130S-52P-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "f1_score": 0.4
+      }
+    },
+    {
+      "target": {
+        "code": "S5580X-EI",
+        "name": "华三 S5580X-EI 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "RG-S5315-E",
+          "name": "锐捷 RG-S5315-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 62
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 62
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735S-H24T4X"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735S-H48T4X"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-30C-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-54C-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750H-24GT4XS-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750H-48GT4XS-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735S-H24T4X",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6,
+          "local_score": 62
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5735S-H48T4X",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "S5560X-30C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.42105263157894735
+          }
+        },
+        {
+          "doubao_code": "S5560X-54C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.42105263157894735
+          }
+        },
+        {
+          "doubao_code": "RG-S5750H-24GT4XS-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.4166666666666667
+          }
+        },
+        {
+          "doubao_code": "RG-S5750H-48GT4XS-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.4166666666666667
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "S5560X-30C-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "local_code": "RG-S5315-E",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "S5560X-30C-EI",
+            "similarity": 0.42105263157894735
+          }
+        },
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 62,
+          "best_doubao_match": {
+            "code": "S5735S-H24T4X",
+            "similarity": 0.4444444444444444
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 1,
+        "local_count": 4,
+        "precision": 0.25,
+        "recall": 0.1667,
+        "f1_score": 0.2
+      }
+    },
+    {
+      "target": {
+        "code": "S5580S-EI",
+        "name": "华三 S5580S-EI 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "RG-S5315-E",
+          "name": "锐捷 RG-S5315-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 62
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 62
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5500V2-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750E-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-28S4XC"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 62
+        },
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 62
+        },
+        {
+          "doubao_code": "S5500V2-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.5882352941176471,
+          "local_score": 62
+        },
+        {
+          "doubao_code": "RG-S5750E-L",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "similarity": 0.7058823529411765,
+          "local_score": 65
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5560X-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-28S4XC",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.45454545454545453
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5315-E",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "RG-S5750E-L",
+            "similarity": 0.7058823529411765
+          }
+        },
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 62,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.7142857142857143
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 0.6667,
+        "f1_score": 0.8
+      }
+    },
+    {
+      "target": {
+        "code": "S5590-EI",
+        "name": "华三 S5590-EI 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "RG-S5315-E",
+          "name": "锐捷 RG-S5315-E 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 62
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 62
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735S-H24T4X"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735S-H24P4X"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-26C-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-26C-PWR-EI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-26S4XS"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-26S4XSP"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735S-H24T4X",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6,
+          "local_score": 62
+        },
+        {
+          "doubao_code": "S5735S-H24P4X",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6,
+          "local_score": 62
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5560X-26C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.42105263157894735
+          }
+        },
+        {
+          "doubao_code": "S5560X-26C-PWR-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.36363636363636365
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-26S4XS",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-26S4XSP",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.43478260869565216
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "RG-S5760C-26S4XS",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "local_code": "RG-S5315-E",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "S5560X-26C-EI",
+            "similarity": 0.42105263157894735
+          }
+        },
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 62,
+          "best_doubao_match": {
+            "code": "S5735S-H24T4X",
+            "similarity": 0.4444444444444444
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "f1_score": 0.4
+      }
+    },
+    {
+      "target": {
+        "code": "S5590-HI",
+        "name": "华三 S5590-HI 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5750-H",
+          "name": "锐捷 RG-S5750-H 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 64
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "CE6851-48S6Q"
+        },
+        {
+          "brand": "华为",
+          "code": "CE6857-48S6Q"
+        },
+        {
+          "brand": "华为",
+          "code": "CE6881-48S6Q"
+        },
+        {
+          "brand": "H3C",
+          "code": "S6520X-54QC-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S6520X-54QC-HI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S6520X-54QC-SI"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S6510-48VS8CQ"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S6510-48VS8CQ-X"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S6510-48VS8CQ-L"
+        }
+      ],
+      "matched": [],
+      "missed": [
+        {
+          "doubao_code": "CE6851-48S6Q",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.11764705882352941
+          }
+        },
+        {
+          "doubao_code": "CE6857-48S6Q",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.23529411764705882
+          }
+        },
+        {
+          "doubao_code": "CE6881-48S6Q",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.11764705882352941
+          }
+        },
+        {
+          "doubao_code": "S6520X-54QC-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.4
+          }
+        },
+        {
+          "doubao_code": "S6520X-54QC-HI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "doubao_code": "S6520X-54QC-SI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.3333333333333333
+          }
+        },
+        {
+          "doubao_code": "RG-S6510-48VS8CQ",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.5454545454545454
+          }
+        },
+        {
+          "doubao_code": "RG-S6510-48VS8CQ-X",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.5217391304347826
+          }
+        },
+        {
+          "doubao_code": "RG-S6510-48VS8CQ-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5310-E",
+            "similarity": 0.5217391304347826
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5750-H",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "RG-S6510-48VS8CQ",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 64,
+          "best_doubao_match": {
+            "code": "RG-S6510-48VS8CQ",
+            "similarity": 0.5454545454545454
+          }
+        },
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S6520X-54QC-HI",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S6520X-54QC-EI",
+            "similarity": 0.3
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 9,
+        "matched_count": 0,
+        "local_count": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0
+      }
+    },
+    {
+      "target": {
+        "code": "S5590XP-HI-G",
+        "name": "华三 S5590XP-HI-G 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5750-H",
+          "name": "锐捷 RG-S5750-H 系列",
+          "brand": "锐捷",
+          "score": 65
+        },
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 64
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "CE6851-48S6Q-HI"
+        },
+        {
+          "brand": "华为",
+          "code": "CE6857-48S6Q-HI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5590-EI-G"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5590-SI-G"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-48GT4XS-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760C-48GT4XS-E"
+        }
+      ],
+      "matched": [],
+      "missed": [
+        {
+          "doubao_code": "CE6851-48S6Q-HI",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.21052631578947367
+          }
+        },
+        {
+          "doubao_code": "CE6857-48S6Q-HI",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.3157894736842105
+          }
+        },
+        {
+          "doubao_code": "S5590-EI-G",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5750-H",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "S5590-SI-G",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "RG-S5750-H",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-48GT4XS-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5750-H",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "RG-S5760C-48GT4XS-E",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S5750-H",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S5750-H",
+          "local_brand": "锐捷",
+          "local_score": 65,
+          "best_doubao_match": {
+            "code": "S5590-EI-G",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "local_score": 64,
+          "best_doubao_match": {
+            "code": "S5590-EI-G",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5590-EI-G",
+            "similarity": 0.42857142857142855
+          }
+        },
+        {
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5590-EI-G",
+            "similarity": 0.375
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 6,
+        "matched_count": 0,
+        "local_count": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0
+      }
+    },
+    {
+      "target": {
+        "code": "S5560X-HI",
+        "name": "华三 S5560X-HI 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S5310-E",
+          "name": "锐捷 RG-S5310-E 系列",
+          "brand": "锐捷",
+          "score": 74
+        },
+        {
+          "code": "RG-S5300-E",
+          "name": "锐捷 RG-S5300-E 系列",
+          "brand": "锐捷",
+          "score": 74
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 65
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 65
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-H"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S"
+        },
+        {
+          "brand": "华为",
+          "code": "S6730-H"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S6510-48XS"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S6500-48XS"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-H",
+          "doubao_brand": "华为",
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "similarity": 0.8333333333333334,
+          "local_score": 65
+        },
+        {
+          "doubao_code": "S5735-S",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.7142857142857143,
+          "local_score": 65
+        },
+        {
+          "doubao_code": "RG-S6510-48XS",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5310-E",
+          "local_brand": "锐捷",
+          "similarity": 0.631578947368421,
+          "local_score": 74
+        },
+        {
+          "doubao_code": "RG-S6500-48XS",
+          "doubao_brand": "锐捷",
+          "local_code": "RG-S5300-E",
+          "local_brand": "锐捷",
+          "similarity": 0.631578947368421,
+          "local_score": 74
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S6730-H",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5755-H",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "extra": [],
+      "metrics": {
+        "total_expected": 5,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1_score": 0.8889
+      }
+    },
+    {
+      "target": {
+        "code": "S5130",
+        "name": "华三 S5130 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 115
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 113
+        },
+        {
+          "code": "RG-S2910-L",
+          "name": "锐捷 RG-S2910-L 系列",
+          "brand": "锐捷",
+          "score": 107
+        },
+        {
+          "code": "RG-S2910XS-E",
+          "name": "锐捷 RG-S2910XS-E 系列",
+          "brand": "锐捷",
+          "score": 107
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-24GT4XS-P-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750-48GT4XS-P-L"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 115
+        },
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 115
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "RG-S5750-24GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.46153846153846156
+          }
+        },
+        {
+          "doubao_code": "RG-S5750-48GT4XS-P-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.46153846153846156
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 113,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.7142857142857143
+          }
+        },
+        {
+          "local_code": "RG-S2910-L",
+          "local_brand": "锐捷",
+          "local_score": 107,
+          "best_doubao_match": {
+            "code": "RG-S5750-24GT4XS-P-L",
+            "similarity": 0.4166666666666667
+          }
+        },
+        {
+          "local_code": "RG-S2910XS-E",
+          "local_brand": "锐捷",
+          "local_score": 107,
+          "best_doubao_match": {
+            "code": "RG-S5750-24GT4XS-P-L",
+            "similarity": 0.46153846153846156
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "S5130S-HI-G",
+        "name": "华三 S5130S-HI-G 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "RG-S2910-H",
+          "name": "锐捷 RG-S2910-H 系列",
+          "brand": "锐捷",
+          "score": 117
+        },
+        {
+          "code": "RG-S2910XS-E",
+          "name": "锐捷 RG-S2910XS-E 系列",
+          "brand": "锐捷",
+          "score": 116
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 115
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 113
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5750H-24GT4XS-L"
+        },
+        {
+          "brand": "锐捷",
+          "code": "RG-S5760-24GT4XS-P"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 115
+        },
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 115
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "RG-S5750H-24GT4XS-L",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.46153846153846156
+          }
+        },
+        {
+          "doubao_code": "RG-S5760-24GT4XS-P",
+          "doubao_brand": "锐捷",
+          "best_local_match": {
+            "code": "RG-S2910XS-E",
+            "similarity": 0.48
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "RG-S2910-H",
+          "local_brand": "锐捷",
+          "local_score": 117,
+          "best_doubao_match": {
+            "code": "RG-S5750H-24GT4XS-L",
+            "similarity": 0.4166666666666667
+          }
+        },
+        {
+          "local_code": "RG-S2910XS-E",
+          "local_brand": "锐捷",
+          "local_score": 116,
+          "best_doubao_match": {
+            "code": "RG-S5760-24GT4XS-P",
+            "similarity": 0.48
+          }
+        },
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 113,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.7142857142857143
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5760-X",
+        "name": "锐捷 RG-S5760-X 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 103
+        },
+        {
+          "code": "S5731-H",
+          "name": "华为 S5731-H 系列",
+          "brand": "华为",
+          "score": 103
+        },
+        {
+          "code": "S5130",
+          "name": "华三 S5130 系列",
+          "brand": "H3C",
+          "score": 103
+        },
+        {
+          "code": "S5130S-HI-G",
+          "name": "华三 S5130S-HI-G 系列",
+          "brand": "H3C",
+          "score": 103
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-X"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735X-S"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-30C-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-54C-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-X",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.7142857142857143,
+          "local_score": 103
+        },
+        {
+          "doubao_code": "S5735X-S",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6666666666666666,
+          "local_score": 103
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5560X-30C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5130",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "S5560X-54C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5130S-HI-G",
+            "similarity": 0.4
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5731-H",
+          "local_brand": "华为",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "S5735-X",
+            "similarity": 0.6666666666666666
+          }
+        },
+        {
+          "local_code": "S5130",
+          "local_brand": "H3C",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "S5735-X",
+            "similarity": 0.5454545454545454
+          }
+        },
+        {
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "S5735X-S",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5310-E",
+        "name": "锐捷 RG-S5310-E 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S6520X-EI-G",
+          "name": "华三 S6520X-EI-G 系列",
+          "brand": "H3C",
+          "score": 105
+        },
+        {
+          "code": "S6520X-EI",
+          "name": "华三 S6520X-EI 系列",
+          "brand": "H3C",
+          "score": 105
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 100
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 92
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735S-L24P4S-A"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28S-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 92
+        },
+        {
+          "doubao_code": "S5735S-L24P4S-A",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6666666666666666,
+          "local_score": 92
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "doubao_code": "S5130S-28S-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "local_score": 105,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S6520X-EI",
+          "local_brand": "H3C",
+          "local_score": 105,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 100,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5714285714285714
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5760-L",
+        "name": "锐捷 RG-S5760-L 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 113
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 113
+        },
+        {
+          "code": "S5130S-LI",
+          "name": "华三 S5130S-LI 系列",
+          "brand": "H3C",
+          "score": 113
+        },
+        {
+          "code": "S5130S-SI",
+          "name": "华三 S5130S-SI 系列",
+          "brand": "H3C",
+          "score": 112
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 113
+        },
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 113
+        },
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 113
+        },
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 113
+        }
+      ],
+      "missed": [],
+      "extra": [
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 113,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.7142857142857143
+          }
+        },
+        {
+          "local_code": "S5130S-SI",
+          "local_brand": "H3C",
+          "local_score": 112,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.7368421052631579
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S2910-L",
+        "name": "锐捷 RG-S2910-L 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 117
+        },
+        {
+          "code": "S5130S-LI",
+          "name": "华三 S5130S-LI 系列",
+          "brand": "H3C",
+          "score": 117
+        },
+        {
+          "code": "S5130S-SI",
+          "name": "华三 S5130S-SI 系列",
+          "brand": "H3C",
+          "score": 116
+        },
+        {
+          "code": "S5731-L",
+          "name": "华为 S5731-L 系列",
+          "brand": "华为",
+          "score": 115
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5720LI-28P-LI-AC"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-LI",
+          "local_brand": "H3C",
+          "similarity": 0.7368421052631579,
+          "local_score": 117
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5720LI-28P-LI-AC",
+          "doubao_brand": "华为",
+          "best_local_match": {
+            "code": "S5130S-LI",
+            "similarity": 0.45454545454545453
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "local_score": 117,
+          "best_doubao_match": {
+            "code": "S5720LI-28P-LI-AC",
+            "similarity": 0.45454545454545453
+          }
+        },
+        {
+          "local_code": "S5130S-SI",
+          "local_brand": "H3C",
+          "local_score": 116,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.7368421052631579
+          }
+        },
+        {
+          "local_code": "S5731-L",
+          "local_brand": "华为",
+          "local_score": 115,
+          "best_doubao_match": {
+            "code": "S5720LI-28P-LI-AC",
+            "similarity": 0.4
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 2,
+        "matched_count": 1,
+        "local_count": 4,
+        "precision": 0.25,
+        "recall": 0.5,
+        "f1_score": 0.3333
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5750-H",
+        "name": "锐捷 RG-S5750-H 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5130S-HI-G",
+          "name": "华三 S5130S-HI-G 系列",
+          "brand": "H3C",
+          "score": 95
+        },
+        {
+          "code": "S5130-HI",
+          "name": "华三 S5130-HI 系列",
+          "brand": "H3C",
+          "score": 95
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 85
+        },
+        {
+          "code": "S5731-H",
+          "name": "华为 S5731-H 系列",
+          "brand": "华为",
+          "score": 85
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-H"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735S-H"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-30C-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5560X-54C-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-H",
+          "doubao_brand": "华为",
+          "local_code": "S5731-H",
+          "local_brand": "华为",
+          "similarity": 0.8333333333333334,
+          "local_score": 85
+        },
+        {
+          "doubao_code": "S5735S-H",
+          "doubao_brand": "华为",
+          "local_code": "S5731-H",
+          "local_brand": "华为",
+          "similarity": 0.7692307692307693,
+          "local_score": 85
+        },
+        {
+          "doubao_code": "S5560X-30C-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130-HI",
+          "local_brand": "H3C",
+          "similarity": 0.5555555555555556,
+          "local_score": 95
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5560X-54C-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5130-HI",
+            "similarity": 0.4444444444444444
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "local_score": 95,
+          "best_doubao_match": {
+            "code": "S5735S-H",
+            "similarity": 0.625
+          }
+        },
+        {
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "local_score": 85,
+          "best_doubao_match": {
+            "code": "S5735-H",
+            "similarity": 0.7142857142857143
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 3,
+        "local_count": 4,
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1_score": 0.75
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5760C-24GT8XS-X",
+        "name": "锐捷 RG-S5760C-24GT8XS-X 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 103
+        },
+        {
+          "code": "S5731-H",
+          "name": "华为 S5731-H 系列",
+          "brand": "华为",
+          "score": 103
+        },
+        {
+          "code": "S5130",
+          "name": "华三 S5130 系列",
+          "brand": "H3C",
+          "score": 103
+        },
+        {
+          "code": "S5130S-HI-G",
+          "name": "华三 S5130S-HI-G 系列",
+          "brand": "H3C",
+          "score": 103
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-S24P4S-A"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S24P4S-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-24P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-24P-PWR-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-S24P4S-A",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6,
+          "local_score": 103
+        },
+        {
+          "doubao_code": "S5735-S24P4S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6666666666666666,
+          "local_score": 103
+        },
+        {
+          "doubao_code": "S5130S-24P-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "similarity": 0.7,
+          "local_score": 103
+        },
+        {
+          "doubao_code": "S5130S-24P-PWR-EI",
+          "doubao_brand": "H3C",
+          "local_code": "S5130S-HI-G",
+          "local_brand": "H3C",
+          "similarity": 0.6086956521739131,
+          "local_score": 103
+        }
+      ],
+      "missed": [],
+      "extra": [
+        {
+          "local_code": "S5731-H",
+          "local_brand": "华为",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "S5735-S24P4S-A",
+            "similarity": 0.4444444444444444
+          }
+        },
+        {
+          "local_code": "S5130",
+          "local_brand": "H3C",
+          "local_score": 103,
+          "best_doubao_match": {
+            "code": "S5130S-24P-EI",
+            "similarity": 0.625
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 4,
+        "local_count": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5315-E",
+        "name": "锐捷 RG-S5315-E 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S6520X-EI-G",
+          "name": "华三 S6520X-EI-G 系列",
+          "brand": "H3C",
+          "score": 87
+        },
+        {
+          "code": "S6526XE-EI",
+          "name": "华三 S6526XE-EI 系列",
+          "brand": "H3C",
+          "score": 87
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 85
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 62
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S24P4S-A"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28S-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 62
+        },
+        {
+          "doubao_code": "S5735-S24P4S-A",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.6,
+          "local_score": 62
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI-G",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "S5130S-28S-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI-G",
+            "similarity": 0.5
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "local_score": 87,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S6526XE-EI",
+          "local_brand": "H3C",
+          "local_score": 87,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 85,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5714285714285714
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5310",
+        "name": "锐捷 RG-S5310 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 100
+        },
+        {
+          "code": "S6520X-EI-G",
+          "name": "华三 S6520X-EI-G 系列",
+          "brand": "H3C",
+          "score": 95
+        },
+        {
+          "code": "S6520X-HI",
+          "name": "华三 S6520X-HI 系列",
+          "brand": "H3C",
+          "score": 95
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 85
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 85
+        },
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 85
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI-G",
+            "similarity": 0.5
+          }
+        },
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 100,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5714285714285714
+          }
+        },
+        {
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "local_score": 95,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S6520X-HI",
+          "local_brand": "H3C",
+          "local_score": 95,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.42105263157894735
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5300-E",
+        "name": "锐捷 RG-S5300-E 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S6520X-EI-G",
+          "name": "华三 S6520X-EI-G 系列",
+          "brand": "H3C",
+          "score": 105
+        },
+        {
+          "code": "S6520X-EI",
+          "name": "华三 S6520X-EI 系列",
+          "brand": "H3C",
+          "score": 105
+        },
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 100
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 92
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-S-V2"
+        },
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-52P-EI"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-S-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 0.875,
+          "local_score": 92
+        },
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 92
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5130S-52P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S6520X-EI",
+            "similarity": 0.5263157894736842
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S6520X-EI-G",
+          "local_brand": "H3C",
+          "local_score": 105,
+          "best_doubao_match": {
+            "code": "S5130S-52P-EI",
+            "similarity": 0.5
+          }
+        },
+        {
+          "local_code": "S6520X-EI",
+          "local_brand": "H3C",
+          "local_score": 105,
+          "best_doubao_match": {
+            "code": "S5130S-52P-EI",
+            "similarity": 0.5263157894736842
+          }
+        },
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 100,
+          "best_doubao_match": {
+            "code": "S5735-S-V2",
+            "similarity": 0.5714285714285714
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 4,
+        "matched_count": 2,
+        "local_count": 4,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1_score": 0.5
+      }
+    },
+    {
+      "target": {
+        "code": "RG-S5000",
+        "name": "锐捷 RG-S5000 系列"
+      },
+      "local_competitors": [
+        {
+          "code": "S5755-H",
+          "name": "华为 S5755-H 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "S5735-L-V2",
+          "name": "华为 S5735-L-V2 系列",
+          "brand": "华为",
+          "score": 55
+        },
+        {
+          "code": "S5800",
+          "name": "华三 S5800 系列",
+          "brand": "H3C",
+          "score": 55
+        },
+        {
+          "code": "S5500",
+          "name": "华三 S5500 系列",
+          "brand": "H3C",
+          "score": 55
+        }
+      ],
+      "doubao_competitors": [
+        {
+          "brand": "华为",
+          "code": "S5735-L-V2"
+        },
+        {
+          "brand": "H3C",
+          "code": "S5130S-28P-EI"
+        }
+      ],
+      "matched": [
+        {
+          "doubao_code": "S5735-L-V2",
+          "doubao_brand": "华为",
+          "local_code": "S5735-L-V2",
+          "local_brand": "华为",
+          "similarity": 1.0,
+          "local_score": 55
+        }
+      ],
+      "missed": [
+        {
+          "doubao_code": "S5130S-28P-EI",
+          "doubao_brand": "H3C",
+          "best_local_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.42105263157894735
+          }
+        }
+      ],
+      "extra": [
+        {
+          "local_code": "S5755-H",
+          "local_brand": "华为",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.5714285714285714
+          }
+        },
+        {
+          "local_code": "S5800",
+          "local_brand": "H3C",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5130S-28P-EI",
+            "similarity": 0.375
+          }
+        },
+        {
+          "local_code": "S5500",
+          "local_brand": "H3C",
+          "local_score": 55,
+          "best_doubao_match": {
+            "code": "S5735-L-V2",
+            "similarity": 0.46153846153846156
+          }
+        }
+      ],
+      "metrics": {
+        "total_expected": 2,
+        "matched_count": 1,
+        "local_count": 4,
+        "precision": 0.25,
+        "recall": 0.5,
+        "f1_score": 0.3333
+      }
+    }
+  ]
+}

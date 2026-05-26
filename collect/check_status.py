@@ -1,0 +1,15 @@
+with open('scraper.log', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+    huawei_done = any('华为 采集完成' in l for l in lines)
+    h3c_switch = any('华三 - 交换机: 爬取' in l for l in lines)
+    h3c_wireless = any('开始爬取华三 无线' in l for l in lines)
+    h3c_done = any('华三 采集完成' in l for l in lines)
+    ruijie_start = any('开始采集 锐捷' in l for l in lines)
+    ruijie_done = any('锐捷 采集完成' in l for l in lines)
+    full_done = any('全量采集任务完成' in l for l in lines)
+    
+    print('华为:', '完成' if huawei_done else '未开始')
+    print('华三交换机:', '完成' if h3c_switch else '未开始')
+    print('华三无线:', '完成' if h3c_done else ('进行中' if h3c_wireless else '未开始'))
+    print('锐捷:', '完成' if ruijie_done else ('进行中' if ruijie_start else '未开始'))
+    print('全量任务:', '完成' if full_done else '进行中')
