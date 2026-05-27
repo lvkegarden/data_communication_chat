@@ -22,11 +22,9 @@ env:
   APP_NAME: 'LocalRest Agent'
   PACKAGE_NAME: 'com.localrest.mobile'
   JAVA_VERSION: '17'
-  NODE_VERSION: '22'
   ANDROID_API_LEVEL: 34
   ANDROID_BUILD_TOOLS: '34.0.0'
   ANDROID_CMDLINE_TOOLS: '11076708'
-  GRADLE_VERSION: '8.9'
 
 jobs:
   build:
@@ -43,8 +41,8 @@ jobs:
         run: |
           echo "=== 项目根目录 ==="
           ls -la
-          echo "=== android 目录 ==="
-          ls -la android/ 2>/dev/null || echo "android 目录不存在"
+          echo "=== android/android 目录 ==="
+          ls -la android/android/ 2>/dev/null || echo "android/android 目录不存在"
           echo "=== android/web 目录 ==="
           ls -la android/web/ 2>/dev/null || echo "android/web 目录不存在"
 
@@ -54,19 +52,12 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Verify environments
+      - name: Verify Java
         run: |
           echo "=== Java 版本 ==="
           java -version
-          echo "=== Node 版本 ==="
-          node --version
-          echo "=== npm 版本 ==="
-          npm --version
+          echo "=== JAVA_HOME ==="
+          echo $JAVA_HOME
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -83,74 +74,53 @@ jobs:
         run: |
           yes | sdkmanager --licenses || true
 
-      - name: Install Node.js dependencies
-        working-directory: android
+      - name: Copy web files to assets
         run: |
-          echo "=== 检查 package.json ==="
-          cat package.json
-          echo "=== 安装依赖 ==="
-          npm install --legacy-peer-deps
+          echo "=== 复制 Web 文件到 Android Assets ==="
+          mkdir -p android/android/app/src/main/assets/web
+          cp -r android/web/* android/android/app/src/main/assets/web/
+          ls -la android/android/app/src/main/assets/web/
 
-      - name: List node_modules
-        working-directory: android
+      - name: Copy sample data to assets
         run: |
-          echo "=== node_modules 目录 ==="
-          ls -la node_modules/ 2>/dev/null | head -20
-          echo "=== 检查 npx 是否可用 ==="
-          npx --version
-
-      - name: Initialize Capacitor (if not exists)
-        working-directory: android
-        run: |
-          if [ ! -f "capacitor.config.json" ]; then
-            echo "=== 初始化 Capacitor ==="
-            npx cap init "${{ env.APP_NAME }}" "${{ env.PACKAGE_NAME }}" --web-dir=web
+          echo "=== 复制数据文件 ==="
+          mkdir -p android/android/app/src/main/assets
+          
+          if [ -f "data/localrest.db" ]; then
+            echo "找到 localrest.db，复制到 assets"
+            cp data/localrest.db android/android/app/src/main/assets/
+          elif [ -f "android/assets/sampleData.json" ]; then
+            echo "找到 sampleData.json，复制到 assets"
+            cp android/assets/sampleData.json android/android/app/src/main/assets/
           else
-            echo "=== capacitor.config.json 已存在 ==="
-            cat capacitor.config.json
+            echo "警告: 未找到数据文件"
           fi
+          
+          ls -la android/android/app/src/main/assets/
 
-      - name: Add Android platform (if not exists)
-        working-directory: android
+      - name: Make gradlew executable
+        working-directory: android/android
         run: |
-          if [ ! -d "android" ]; then
-            echo "=== 添加 Android 平台 ==="
-            npx cap add android
-          else
-            echo "=== Android 平台已存在 ==="
-            ls -la android/
-          fi
-
-      - name: Sync Capacitor
-        working-directory: android
-        run: |
-          echo "=== 同步 Capacitor ==="
-          npx cap sync android 2>&1 || npx cap sync
-
-      - name: List Android project
-        working-directory: android
-        run: |
-          echo "=== android/android 目录 ==="
-          ls -la android/ 2>/dev/null
           echo "=== 检查 gradlew ==="
-          if [ -f "android/gradlew" ]; then
-            chmod +x android/gradlew
-            echo "gradlew 存在并已设置可执行权限"
-          else
-            echo "警告: gradlew 不存在"
-          fi
+          ls -la gradlew 2>/dev/null || echo "gradlew 不存在"
+          chmod +x gradlew 2>/dev/null || true
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
+      - name: List android project structure
+        working-directory: android/android
+        run: |
+          echo "=== Android 项目结构 ==="
+          ls -la
+          echo "=== app 目录 ==="
+          ls -la app/ 2>/dev/null
+          echo "=== app/src 目录 ==="
+          ls -la app/src/ 2>/dev/null
 
       - name: Build APK (Debug)
         if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
         working-directory: android/android
         run: |
           echo "=== 开始构建 Debug APK ==="
-          ./gradlew assembleDebug --stacktrace 2>&1
+          ./gradlew assembleDebug --stacktrace --no-daemon
           echo "=== 构建完成 ==="
 
       - name: Build APK (Release)
@@ -171,13 +141,14 @@ jobs:
               -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
               -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
               -Pandroid.injected.signing.key.password=$KEY_PASSWORD \
-              --stacktrace
+              --stacktrace --no-daemon
           else
             echo "未配置签名密钥，构建未签名 Release APK"
-            ./gradlew assembleRelease --stacktrace
+            ./gradlew assembleRelease --stacktrace --no-daemon
           fi
+          echo "=== 构建完成 ==="
 
-      - name: List APK files
+      - name: Find APK files
         run: |
           echo "=== 查找 APK 文件 ==="
           find . -name "*.apk" -type f 2>/dev/null

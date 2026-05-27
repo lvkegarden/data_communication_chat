@@ -3,913 +3,743 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
     <title>数通产品智能体</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
-        :root {
-            --primary: #667eea;
-            --primary-dark: #5a67d8;
-            --secondary: #764ba2;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f7fa;
+            background-color: #f5f5f5;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
         }
+
         .header {
-            background: var(--bg-gradient);
-            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        }
-        .header h1 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .header .subtitle {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-        .search-bar {
-            padding: 15px 20px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            position: sticky;
+            padding: 16px 20px;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .search-input {
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .container {
+            padding: 70px 16px 16px;
+        }
+
+        .search-box {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .search-box input {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 25px;
-            font-size: 0.95rem;
+            padding: 12px 16px 12px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-box input:focus {
             outline: none;
-            transition: border-color 0.3s;
-            background: #f8f9fa;
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.3);
         }
-        .search-input:focus {
-            border-color: var(--primary);
-            background: white;
-        }
-        .tabs {
+
+        .brand-filter {
             display: flex;
-            padding: 0 10px;
-            background: white;
-            border-bottom: 1px solid #e9ecef;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
         }
-        .tab {
-            flex: 1;
-            padding: 14px 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #666;
+
+        .brand-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            white-space: nowrap;
+            background: white;
+            color: #666;
+            transition: all 0.3s ease;
         }
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+
+        .brand-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
-        .content {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            padding-bottom: 80px;
-        }
-        .view {
-            display: none;
-        }
-        .view.active {
-            display: block;
-        }
+
         .product-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
+
         .product-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 16px;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
         }
+
         .product-card:active {
             transform: scale(0.98);
         }
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-        .product-code {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-        }
-        .product-tag {
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        .tag-huawei { background: #e3f2fd; color: #1976d2; }
-        .tag-h3c { background: #e8f5e9; color: #388e3c; }
-        .tag-ruijie { background: #fff3e0; color: #f57c00; }
-        .product-name {
-            font-size: 0.9rem;
-            color: #666;
+
+        .product-card .brand-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: white;
             margin-bottom: 8px;
         }
-        .product-series {
-            font-size: 0.8rem;
-            color: #999;
+
+        .brand-huawei { background: #cf0a2c; }
+        .brand-h3c { background: #1890ff; }
+        .brand-ruijie { background: #52c41a; }
+
+        .product-card h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
-        .product-meta {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .meta-item {
-            font-size: 0.75rem;
+
+        .product-card .code {
+            font-size: 13px;
             color: #888;
-            background: #f8f9fa;
-            padding: 4px 10px;
-            border-radius: 12px;
+            margin-bottom: 8px;
         }
-        .chat-container {
+
+        .product-card .spec {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 200;
+            align-items: flex-end;
+        }
+
+        .detail-modal.show {
             display: flex;
-            flex-direction: column;
-            height: 100%;
         }
+
+        .detail-content {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .close-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .detail-code {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .detail-section {
+            margin-bottom: 16px;
+        }
+
+        .detail-section h4 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .detail-section p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .action-btn.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .chat-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: none;
+            z-index: 300;
+            flex-direction: column;
+        }
+
+        .chat-modal.show {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            padding: 16px;
         }
+
         .message {
-            max-width: 85%;
+            margin-bottom: 12px;
             padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-        .message.user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        .message.bot {
-            align-self: flex-start;
-            background: white;
-            color: #333;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .message.error {
-            background: #fff5f5;
-            color: #c53030;
-            border: 1px solid #feb2b2;
-        }
-        .message.loading {
-            font-style: italic;
-            color: #888;
-            background: #f8f9fa;
-        }
-        .chat-input-area {
-            padding: 15px;
-            background: white;
-            border-top: 1px solid #e9ecef;
-            position: sticky;
-            bottom: 0;
-        }
-        .chat-input-wrapper {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            outline: none;
-            resize: none;
-            max-height: 100px;
-            background: #f8f9fa;
-            transition: all 0.3s;
-        }
-        .chat-input:focus {
-            border-color: var(--primary);
-            background: white;
-        }
-        .send-btn {
-            width: 44px;
-            height: 44px;
-            border: none;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-        .send-btn:active {
-            transform: scale(0.95);
-        }
-        .send-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .detail-view {
-            background: white;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--card-shadow);
+            max-width: 85%;
+            line-height: 1.5;
         }
-        .detail-header {
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 15px;
+
+        .message.user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
         }
-        .detail-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+
+        .message.assistant {
+            background: #f0f0f0;
             color: #333;
-            margin-bottom: 8px;
         }
-        .detail-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-right: 8px;
-        }
-        .detail-section {
-            margin-bottom: 20px;
-        }
-        .detail-section h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            border-left: 3px solid var(--primary);
-        }
-        .detail-row {
+
+        .chat-input {
+            padding: 16px;
+            border-top: 1px solid #eee;
             display: flex;
-            padding: 8px 0;
-            border-bottom: 1px solid #f5f5f5;
+            gap: 12px;
         }
-        .detail-label {
-            width: 90px;
-            color: #888;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-        .detail-value {
+
+        .chat-input input {
             flex: 1;
-            color: #333;
-            font-size: 0.9rem;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            font-size: 14px;
         }
-        .detail-desc {
-            color: #555;
-            font-size: 0.9rem;
-            line-height: 1.6;
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #667eea;
         }
-        .btn {
-            display: inline-block;
+
+        .chat-input button {
             padding: 12px 24px;
             border: none;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-        .btn-primary {
-            background: var(--primary);
+            border-radius: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            font-size: 14px;
+            cursor: pointer;
         }
-        .btn-primary:active {
-            background: var(--primary-dark);
-            transform: scale(0.98);
+
+        .chat-input button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
-        .btn-outline {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #888;
         }
-        .btn-outline:active {
-            background: #f0f4ff;
-            transform: scale(0.98);
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f0f0f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        .action-buttons .btn {
-            flex: 1;
-        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #999;
+            color: #888;
         }
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+
+        .empty-state h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #666;
         }
-        .empty-state-text {
-            font-size: 1rem;
-        }
-        .status-badge {
+
+        .status-indicator {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 70px;
+            right: 16px;
             padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            z-index: 1000;
+            border-radius: 12px;
+            font-size: 11px;
+            z-index: 100;
         }
-        .status-badge.online {
-            background: rgba(40, 167, 69, 0.9);
+
+        .status-indicator.online {
+            background: #52c41a;
             color: white;
         }
-        .status-badge.offline {
-            background: rgba(220, 53, 69, 0.9);
+
+        .status-indicator.offline {
+            background: #faad14;
             color: white;
-        }
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .quick-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px 20px;
-            background: white;
-            border-bottom: 1px solid #e9ecef;
-        }
-        .quick-action {
-            padding: 8px 16px;
-            background: #f0f4ff;
-            color: var(--primary);
-            border: none;
-            border-radius: 18px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .quick-action:active {
-            background: #dbe5ff;
-            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
-    <div id="statusBadge" class="status-badge offline">离线模式</div>
-    
-    <div id="toast" class="toast"></div>
-
-    <div class="header" id="header">
-        <h1 id="headerTitle">📦 数通产品智能体</h1>
-        <div class="subtitle">产品查询 · AI 咨询 · 离线可用</div>
+    <div class="header">
+        <h1>数通产品智能体</h1>
     </div>
 
-    <div class="tabs" id="tabs">
-        <div class="tab active" data-tab="products">产品列表</div>
-        <div class="tab" data-tab="chat">AI 对话</div>
-    </div>
+    <div class="status-indicator offline" id="statusIndicator">离线模式</div>
 
-    <div class="search-bar" id="searchBar">
-        <input type="text" id="searchInput" class="search-input" placeholder="搜索产品型号、名称...">
-    </div>
-
-    <div class="quick-actions" id="quickActions">
-        <button class="quick-action" data-source="huawei">华为</button>
-        <button class="quick-action" data-source="h3c">H3C</button>
-        <button class="quick-action" data-source="ruijie">锐捷</button>
-        <button class="quick-action" data-source="">全部</button>
-    </div>
-
-    <div class="content">
-        <div id="productsView" class="view active">
-            <div id="productList" class="product-list"></div>
-            <div id="productsEmpty" class="empty-state" style="display:none;">
-                <div class="empty-state-icon">📭</div>
-                <div class="empty-state-text">暂无产品数据</div>
-            </div>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索产品型号或品牌...">
         </div>
 
-        <div id="chatView" class="view">
-            <div class="chat-container">
-                <div id="chatMessages" class="chat-messages">
-                    <div class="message bot">
-                        👋 你好！我是数通产品智能助手。<br><br>
-                        我可以帮你：<br>
-                        • 查询产品详细信息<br>
-                        • 对比不同产品<br>
-                        • 解答技术问题<br><br>
-                        请问有什么可以帮你的？
-                    </div>
-                </div>
-                <div class="chat-input-area">
-                    <div class="chat-input-wrapper">
-                        <textarea id="chatInput" class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
-                        <button id="sendBtn" class="send-btn">📤</button>
-                    </div>
-                </div>
-            </div>
+        <div class="brand-filter">
+            <button class="brand-btn active" data-brand="">全部</button>
+            <button class="brand-btn" data-brand="华为">华为</button>
+            <button class="brand-btn" data-brand="H3C">H3C</button>
+            <button class="brand-btn" data-brand="锐捷">锐捷</button>
         </div>
 
-        <div id="detailView" class="view">
-            <button class="back-btn" id="backBtn">← 返回列表</button>
-            <div id="detailContent" class="detail-view"></div>
-            <div id="detailEmpty" class="empty-state" style="display:none;">
-                <div class="empty-state-icon">🔍</div>
-                <div class="empty-state-text">产品详情加载中...</div>
+        <div class="product-list" id="productList">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div style="margin-top: 8px;">加载中...</div>
             </div>
         </div>
     </div>
 
-    <script src="js/dataService.js"></script>
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-content">
+            <div class="detail-header">
+                <span></span>
+                <button class="close-btn" onclick="closeDetail()">×</button>
+            </div>
+            <div id="detailContent">
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn secondary" onclick="findCompetitor()">找竞品</button>
+                <button class="action-btn primary" onclick="askAI()">咨询 AI</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-header">
+            <button class="back-btn" onclick="closeChat()">←</button>
+            <h2>AI 对话</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="输入你的问题...">
+            <button id="sendBtn" onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
     <script>
-        const App = {
-            currentTab: 'products',
-            selectedProduct: null,
-            chatHistory: [],
-            sessionId: 'mobile_' + Date.now(),
-            currentSource: '',
+        let products = [];
+        let currentProduct = null;
+        let chatContext = null;
 
-            init: async function() {
-                this.bindEvents();
-                this.resizeTextarea();
-                
-                try {
-                    await DataService.init({ mode: 'local' });
-                    this.updateStatusBadge('offline');
-                    await this.loadProducts();
-                    this.showToast('应用已就绪');
-                } catch (e) {
-                    console.error('初始化失败:', e);
-                    this.showToast('初始化失败: ' + e.message);
-                }
+        function isAndroidWebView() {
+            return typeof ApiBridge !== 'undefined' && ApiBridge !== null;
+        }
 
-                this.checkNetworkStatus();
-                setInterval(() => this.checkNetworkStatus(), 5000);
-            },
-
-            bindEvents: function() {
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
-                });
-
-                const searchInput = document.getElementById('searchInput');
-                let searchTimeout;
-                searchInput.addEventListener('input', (e) => {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        this.loadProducts({ keyword: e.target.value, source: this.currentSource });
-                    }, 300);
-                });
-
-                document.querySelectorAll('.quick-action').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.currentSource = btn.dataset.source;
-                        this.loadProducts({ source: this.currentSource });
-                    });
-                });
-
-                document.getElementById('sendBtn').addEventListener('click', () => this.sendMessage());
-                
-                const chatInput = document.getElementById('chatInput');
-                chatInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        this.sendMessage();
-                    }
-                });
-
-                document.getElementById('backBtn').addEventListener('click', () => {
-                    this.switchTab('products');
-                });
-            },
-
-            switchTab: function(tab) {
-                this.currentTab = tab;
-                
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
-
-                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                
-                if (tab === 'products') {
-                    document.getElementById('productsView').classList.add('active');
-                    document.getElementById('searchBar').style.display = 'block';
-                    document.getElementById('quickActions').style.display = 'flex';
-                    document.getElementById('headerTitle').textContent = '📦 数通产品智能体';
-                } else if (tab === 'chat') {
-                    document.getElementById('chatView').classList.add('active');
-                    document.getElementById('searchBar').style.display = 'none';
-                    document.getElementById('quickActions').style.display = 'none';
-                    document.getElementById('headerTitle').textContent = '🤖 AI 智能助手';
-                    setTimeout(() => this.scrollToBottom(), 100);
-                } else if (tab === 'detail') {
-                    document.getElementById('detailView').classList.add('active');
-                    document.getElementById('searchBar').style.display = 'none';
-                    document.getElementById('quickActions').style.display = 'none';
-                    document.getElementById('headerTitle').textContent = '📋 产品详情';
-                }
-            },
-
-            loadProducts: async function(options = {}) {
-                try {
-                    const result = await DataService.getProducts(options);
-                    this.renderProducts(result.products || []);
-                } catch (e) {
-                    console.error('加载产品失败:', e);
-                    this.renderProducts([]);
-                    this.showToast('加载失败: ' + e.message);
-                }
-            },
-
-            renderProducts: function(products) {
-                const list = document.getElementById('productList');
-                const empty = document.getElementById('productsEmpty');
-                
-                if (!products || products.length === 0) {
-                    list.innerHTML = '';
-                    empty.style.display = 'block';
-                    return;
-                }
-
-                empty.style.display = 'none';
-                list.innerHTML = products.map(p => this.createProductCard(p)).join('');
-
-                list.querySelectorAll('.product-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const code = card.dataset.code;
-                        this.showProductDetail(code);
-                    });
-                });
-            },
-
-            createProductCard: function(product) {
-                const source = (product.source || '').toLowerCase();
-                let tagClass = 'tag-huawei';
-                let sourceName = '未知';
-                
-                if (source.includes('huawei') || source.includes('华为')) {
-                    tagClass = 'tag-huawei';
-                    sourceName = '华为';
-                } else if (source.includes('h3c') || source.includes('新华三')) {
-                    tagClass = 'tag-h3c';
-                    sourceName = 'H3C';
-                } else if (source.includes('ruijie') || source.includes('锐捷')) {
-                    tagClass = 'tag-ruijie';
-                    sourceName = '锐捷';
-                }
-
-                return `
-                    <div class="product-card" data-code="${product.product_code || ''}">
-                        <div class="product-header">
-                            <span class="product-code">${product.product_code || '未知型号'}</span>
-                            <span class="product-tag ${tagClass}">${sourceName}</span>
-                        </div>
-                        <div class="product-name">${product.product_name || '-'}</div>
-                        <div class="product-series">${product.series || ''}</div>
-                        ${product.category || product.description ? `
-                            <div class="product-meta">
-                                ${product.category ? `<span class="meta-item">${product.category}</span>` : ''}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            },
-
-            showProductDetail: async function(productCode) {
-                try {
-                    const result = await DataService.getProductDetail(productCode);
-                    
-                    if (result.success && result.product) {
-                        this.selectedProduct = result.product;
-                        this.renderDetail(result.product);
-                        this.switchTab('detail');
-                    } else {
-                        this.showToast('产品不存在');
-                    }
-                } catch (e) {
-                    console.error('加载详情失败:', e);
-                    this.showToast('加载失败: ' + e.message);
-                }
-            },
-
-            renderDetail: function(product) {
-                const content = document.getElementById('detailContent');
-                const empty = document.getElementById('detailEmpty');
-
-                const source = (product.source || '').toLowerCase();
-                let tagClass = 'tag-huawei';
-                let sourceName = '未知';
-                let tagBg = '#e3f2fd';
-                let tagColor = '#1976d2';
-                
-                if (source.includes('huawei') || source.includes('华为')) {
-                    tagClass = 'tag-huawei';
-                    sourceName = '华为';
-                    tagBg = '#e3f2fd';
-                    tagColor = '#1976d2';
-                } else if (source.includes('h3c') || source.includes('新华三')) {
-                    tagClass = 'tag-h3c';
-                    sourceName = 'H3C';
-                    tagBg = '#e8f5e9';
-                    tagColor = '#388e3c';
-                } else if (source.includes('ruijie') || source.includes('锐捷')) {
-                    tagClass = 'tag-ruijie';
-                    sourceName = '锐捷';
-                    tagBg = '#fff3e0';
-                    tagColor = '#f57c00';
-                }
-
-                let specsHtml = '';
-                if (product.specs) {
-                    try {
-                        const specs = typeof product.specs === 'string' ? JSON.parse(product.specs) : product.specs;
-                        if (specs && Object.keys(specs).length > 0) {
-                            specsHtml = Object.entries(specs).map(([key, val]) => `
-                                <div class="detail-row">
-                                    <span class="detail-label">${key}</span>
-                                    <span class="detail-value">${val}</span>
-                                </div>
-                            `).join('');
-                        }
-                    } catch (e) {
-                        specsHtml = `<div class="detail-value">${product.specs_json || '-'}</div>`;
-                    }
-                }
-
-                content.innerHTML = `
-                    <div class="detail-section">
-                        <div class="detail-header">
-                            <h2 class="detail-title">${product.product_code || '-'}</h2>
-                            <span class="detail-tag" style="background:${tagBg};color:${tagColor}">${sourceName}</span>
-                            ${product.series ? `<span class="detail-tag" style="background:#f3e5f5;color:#7b1fa2">${product.series}</span>` : ''}
-                        </div>
-                        ${product.product_name ? `<div class="detail-desc" style="margin-bottom:15px;">${product.product_name}</div>` : ''}
-                    </div>
-
-                    <div class="detail-section">
-                        <h3>📋 基本信息</h3>
-                        <div class="detail-row">
-                            <span class="detail-label">型号</span>
-                            <span class="detail-value">${product.product_code || '-'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">名称</span>
-                            <span class="detail-value">${product.product_name || '-'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">系列</span>
-                            <span class="detail-value">${product.series || '-'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">品牌</span>
-                            <span class="detail-value">${sourceName}</span>
-                        </div>
-                        ${product.category ? `
-                            <div class="detail-row">
-                                <span class="detail-label">分类</span>
-                                <span class="detail-value">${product.category}</span>
-                            </div>
-                        ` : ''}
-                        ${product.status ? `
-                            <div class="detail-row">
-                                <span class="detail-label">状态</span>
-                                <span class="detail-value">${product.status}</span>
-                            </div>
-                        ` : ''}
-                    </div>
-
-                    ${product.description ? `
-                        <div class="detail-section">
-                            <h3>📝 产品描述</h3>
-                            <div class="detail-desc">${product.description}</div>
-                        </div>
-                    ` : ''}
-
-                    ${specsHtml ? `
-                        <div class="detail-section">
-                            <h3>⚙️ 规格参数</h3>
-                            ${specsHtml}
-                        </div>
-                    ` : ''}
-
-                    <div class="action-buttons">
-                        <button class="btn btn-outline" onclick="App.askAboutProduct()">📤 咨询 AI</button>
-                        <button class="btn btn-primary" onclick="App.findCompetitors()">🔍 找竞品</button>
-                    </div>
-                `;
-
-                empty.style.display = 'none';
-                content.style.display = 'block';
-            },
-
-            askAboutProduct: function() {
-                if (!this.selectedProduct) return;
-                
-                const code = this.selectedProduct.product_code;
-                const name = this.selectedProduct.product_name;
-                const msg = `请详细介绍一下 ${code} ${name ? '(' + name + ')' : ''} 这款产品，包括它的主要特点、适用场景和技术优势。`;
-                
-                this.switchTab('chat');
-                document.getElementById('chatInput').value = msg;
-                this.sendMessage();
-            },
-
-            findCompetitors: async function() {
-                if (!this.selectedProduct) return;
-                
-                try {
-                    const result = await DataService.getCompetitors(this.selectedProduct.product_code, 3);
-                    
-                    if (result.success && result.competitors && result.competitors.length > 0) {
-                        const competitors = result.competitors.map(c => 
-                            `- ${c.product_code} (${c.product_name || '-'})`
-                        ).join('\n');
-                        
-                        const msg = `请帮我分析一下 ${this.selectedProduct.product_code} 的竞品对比：\n\n竞品列表：\n${competitors}\n\n请从技术参数、市场定位、适用场景等方面进行对比分析。`;
-                        
-                        this.switchTab('chat');
-                        document.getElementById('chatInput').value = msg;
-                        this.sendMessage();
-                    } else {
-                        this.showToast('未找到竞品数据');
-                    }
-                } catch (e) {
-                    console.error('查找竞品失败:', e);
-                    this.showToast('查找失败: ' + e.message);
-                }
-            },
-
-            sendMessage: async function() {
-                const input = document.getElementById('chatInput');
-                const btn = document.getElementById('sendBtn');
-                const msg = input.value.trim();
-                
-                if (!msg) return;
-                
-                input.value = '';
-                btn.disabled = true;
-                
-                this.addMessage(msg, 'user');
-                this.addMessage('正在思考中...', 'bot', true);
-                this.scrollToBottom();
-                
-                try {
-                    const result = await DataService.callLLM(msg, this.sessionId);
-                    
-                    this.removeLoadingMessage();
-                    
-                    if (result.success) {
-                        this.addMessage(result.message || result.response || '处理完成', 'bot');
-                    } else {
-                        this.addMessage('❌ ' + (result.error || '调用失败'), 'bot', false, true);
-                    }
-                } catch (e) {
-                    this.removeLoadingMessage();
-                    this.addMessage('❌ 发生错误: ' + e.message, 'bot', false, true);
-                }
-                
-                btn.disabled = false;
-                this.scrollToBottom();
-                this.resizeTextarea();
-            },
-
-            addMessage: function(content, type, isLoading = false, isError = false) {
-                const container = document.getElementById('chatMessages');
-                const div = document.createElement('div');
-                div.className = `message ${type}${isLoading ? ' loading' : ''}${isError ? ' error' : ''}`;
-                div.textContent = content;
-                if (isLoading) {
-                    div.id = 'loadingMessage';
-                }
-                container.appendChild(div);
-            },
-
-            removeLoadingMessage: function() {
-                const loading = document.getElementById('loadingMessage');
-                if (loading) {
-                    loading.remove();
-                }
-            },
-
-            scrollToBottom: function() {
-                const container = document.getElementById('chatMessages');
-                container.scrollTop = container.scrollHeight;
-            },
-
-            resizeTextarea: function() {
-                const textarea = document.getElementById('chatInput');
-                textarea.style.height = 'auto';
-                textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
-            },
-
-            checkNetworkStatus: async function() {
-                try {
-                    const isOnline = await DataService.isNetworkAvailable();
-                    this.updateStatusBadge(isOnline ? 'online' : 'offline');
-                } catch (e) {
-                    this.updateStatusBadge('offline');
-                }
-            },
-
-            updateStatusBadge: function(status) {
-                const badge = document.getElementById('statusBadge');
-                if (status === 'online') {
-                    badge.textContent = '在线模式';
-                    badge.className = 'status-badge online';
+        async function loadProducts() {
+            try {
+                if (isAndroidWebView()) {
+                    const jsonStr = ApiBridge.getAllProducts();
+                    products = JSON.parse(jsonStr);
                 } else {
-                    badge.textContent = '离线模式';
-                    badge.className = 'status-badge offline';
+                    const response = await fetch('../assets/sampleData.json');
+                    products = await response.json();
                 }
-            },
-
-            showToast: function(message) {
-                const toast = document.getElementById('toast');
-                toast.textContent = message;
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2000);
+                renderProducts(products);
+                updateStatus();
+            } catch (error) {
+                console.error('加载产品失败:', error);
+                document.getElementById('productList').innerHTML = `
+                    <div class="empty-state">
+                        <h3>加载失败</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
             }
-        };
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            App.init();
+        function updateStatus() {
+            const indicator = document.getElementById('statusIndicator');
+            if (navigator.onLine) {
+                indicator.textContent = '在线模式';
+                indicator.className = 'status-indicator online';
+            } else {
+                indicator.textContent = '离线模式';
+                indicator.className = 'status-indicator offline';
+            }
+        }
+
+        function renderProducts(productList) {
+            const container = document.getElementById('productList');
+            
+            if (!productList || productList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>暂无产品</h3>
+                        <p>请添加产品数据</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = productList.map(product => `
+                <div class="product-card" onclick="showDetail('${product.code}')">
+                    <span class="brand-tag brand-${getBrandClass(product.brand)}">${product.brand}</span>
+                    <h3>${product.name}</h3>
+                    <div class="code">${product.code}</div>
+                    <div class="spec">${product.spec || product.description || ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function getBrandClass(brand) {
+            const map = {
+                '华为': 'huawei',
+                'H3C': 'h3c',
+                '锐捷': 'ruijie'
+            };
+            return map[brand] || 'huawei';
+        }
+
+        function showDetail(code) {
+            let product;
+            if (isAndroidWebView()) {
+                const jsonStr = ApiBridge.getProductByCode(code);
+                product = JSON.parse(jsonStr);
+            } else {
+                product = products.find(p => p.code === code);
+            }
+
+            if (!product) return;
+
+            currentProduct = product;
+            
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <span class="brand-tag brand-${getBrandClass(product.brand)}">${product.brand}</span>
+                <div class="detail-title">${product.name}</div>
+                <div class="detail-code">${product.code}</div>
+                <div class="detail-section">
+                    <h4>规格参数</h4>
+                    <p>${product.spec || '暂无'}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>产品描述</h4>
+                    <p>${product.description || '暂无'}</p>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.add('show');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailModal').classList.remove('show');
+        }
+
+        function askAI() {
+            if (!currentProduct) return;
+            
+            closeDetail();
+            chatContext = {
+                type: 'product',
+                product: currentProduct
+            };
+            
+            const chatModal = document.getElementById('chatModal');
+            const messages = document.getElementById('chatMessages');
+            
+            messages.innerHTML = `
+                <div class="message assistant">
+                    我已了解【${currentProduct.name}】的信息，请问有什么可以帮助您的？<br><br>
+                    您可以问我：<br>
+                    • 这个产品的主要特点是什么？<br>
+                    • 它适合什么场景？<br>
+                    • 相比同类产品有什么优势？
+                </div>
+            `;
+            
+            chatModal.classList.add('show');
+        }
+
+        function findCompetitor() {
+            if (!currentProduct) return;
+            
+            closeDetail();
+            chatContext = {
+                type: 'competitor',
+                product: currentProduct
+            };
+            
+            const chatModal = document.getElementById('chatModal');
+            const messages = document.getElementById('chatMessages');
+            
+            messages.innerHTML = `
+                <div class="message assistant">
+                    正在为您查找【${currentProduct.name}】的竞品信息...
+                </div>
+            `;
+            
+            chatModal.classList.add('show');
+            
+            const question = `请分析 ${currentProduct.name} (${currentProduct.code}) 的主要竞品，并对比它们的特点。产品信息：${currentProduct.spec || currentProduct.description}`;
+            sendToLLM(question);
+        }
+
+        function closeChat() {
+            document.getElementById('chatModal').classList.remove('show');
+            chatContext = null;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const messages = document.getElementById('chatMessages');
+            const message = input.value.trim();
+            
+            if (!message || sendBtn.disabled) return;
+
+            messages.innerHTML += `<div class="message user">${message}</div>`;
+            input.value = '';
+            input.disabled = true;
+            sendBtn.disabled = true;
+
+            messages.innerHTML += `
+                <div class="message assistant">
+                    <div class="loading-spinner"></div> 正在思考...
+                </div>
+            `;
+            messages.scrollTop = messages.scrollHeight;
+
+            let fullMessage = message;
+            if (chatContext && chatContext.type === 'product') {
+                fullMessage = `基于以下产品信息回答问题：\n\n产品信息：${JSON.stringify(chatContext.product)}\n\n问题：${message}`;
+            }
+
+            await sendToLLM(fullMessage);
+        }
+
+        async function sendToLLM(message) {
+            const sendBtn = document.getElementById('sendBtn');
+            const chatInput = document.getElementById('chatInput');
+            const messages = document.getElementById('chatMessages');
+
+            try {
+                let response;
+                if (isAndroidWebView()) {
+                    response = ApiBridge.callLLM(message);
+                    response = JSON.parse(response);
+                } else {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    response = {
+                        message: "这是一个演示回复。在真实的 Android 应用中，这里会调用实际的大模型 API。\n\n您的问题是：" + message.substring(0, 100) + "..."
+                    };
+                }
+
+                const lastMessage = messages.lastElementChild;
+                if (lastMessage && lastMessage.textContent.includes('正在思考')) {
+                    lastMessage.remove();
+                }
+
+                messages.innerHTML += `<div class="message assistant">${response.message || response}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            } catch (error) {
+                const lastMessage = messages.lastElementChild;
+                if (lastMessage && lastMessage.textContent.includes('正在思考')) {
+                    lastMessage.remove();
+                }
+                
+                messages.innerHTML += `
+                    <div class="message assistant">
+                        ⚠️ AI 服务暂时不可用<br>
+                        ${error.message || '请检查网络连接'}
+                    </div>
+                `;
+            } finally {
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+            }
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const activeBrand = document.querySelector('.brand-btn.active').dataset.brand;
+            
+            let filtered = products;
+            
+            if (activeBrand) {
+                if (isAndroidWebView()) {
+                    const jsonStr = ApiBridge.getProductsByBrand(activeBrand);
+                    filtered = JSON.parse(jsonStr);
+                } else {
+                    filtered = filtered.filter(p => p.brand === activeBrand);
+                }
+            }
+            
+            if (searchTerm) {
+                if (isAndroidWebView()) {
+                    const jsonStr = ApiBridge.searchProducts(searchTerm);
+                    filtered = JSON.parse(jsonStr);
+                    if (activeBrand) {
+                        filtered = filtered.filter(p => p.brand === activeBrand);
+                    }
+                } else {
+                    filtered = filtered.filter(p => 
+                        p.name.toLowerCase().includes(searchTerm) ||
+                        p.code.toLowerCase().includes(searchTerm) ||
+                        (p.brand && p.brand.toLowerCase().includes(searchTerm))
+                    );
+                }
+            }
+            
+            renderProducts(filtered);
+        }
+
+        document.querySelectorAll('.brand-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterProducts();
+            });
         });
+
+        document.getElementById('searchInput').addEventListener('input', filterProducts);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDetail();
+            }
+        });
+
+        loadProducts();
     </script>
 </body>
 </html>
