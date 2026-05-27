@@ -22,6 +22,7 @@ env:
   APP_NAME: 'LocalRest Agent'
   PACKAGE_NAME: 'com.localrest.mobile'
   JAVA_VERSION: '17'
+  GRADLE_VERSION: '8.7'
   ANDROID_API_LEVEL: 34
   ANDROID_BUILD_TOOLS: '34.0.0'
   ANDROID_CMDLINE_TOOLS: '11076708'
@@ -43,8 +44,6 @@ jobs:
           ls -la
           echo "=== android/android 目录 ==="
           ls -la android/android/ 2>/dev/null || echo "android/android 目录不存在"
-          echo "=== android/web 目录 ==="
-          ls -la android/web/ 2>/dev/null || echo "android/web 目录不存在"
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -58,6 +57,16 @@ jobs:
           java -version
           echo "=== JAVA_HOME ==="
           echo $JAVA_HOME
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
+
+      - name: Verify Gradle
+        run: |
+          echo "=== Gradle 版本 ==="
+          gradle --version
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -78,10 +87,14 @@ jobs:
         run: |
           echo "=== 复制 Web 文件到 Android Assets ==="
           mkdir -p android/android/app/src/main/assets/web
-          cp -r android/web/* android/android/app/src/main/assets/web/
-          ls -la android/android/app/src/main/assets/web/
+          if [ -d "android/web" ]; then
+            cp -r android/web/* android/android/app/src/main/assets/web/
+            ls -la android/android/app/src/main/assets/web/
+          else
+            echo "警告: android/web 目录不存在"
+          fi
 
-      - name: Copy sample data to assets
+      - name: Copy data files to assets
         run: |
           echo "=== 复制数据文件 ==="
           mkdir -p android/android/app/src/main/assets
@@ -98,29 +111,22 @@ jobs:
           
           ls -la android/android/app/src/main/assets/
 
-      - name: Make gradlew executable
-        working-directory: android/android
-        run: |
-          echo "=== 检查 gradlew ==="
-          ls -la gradlew 2>/dev/null || echo "gradlew 不存在"
-          chmod +x gradlew 2>/dev/null || true
-
       - name: List android project structure
         working-directory: android/android
         run: |
           echo "=== Android 项目结构 ==="
           ls -la
           echo "=== app 目录 ==="
-          ls -la app/ 2>/dev/null
+          ls -la app/
           echo "=== app/src 目录 ==="
-          ls -la app/src/ 2>/dev/null
+          ls -la app/src/
 
       - name: Build APK (Debug)
         if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
         working-directory: android/android
         run: |
           echo "=== 开始构建 Debug APK ==="
-          ./gradlew assembleDebug --stacktrace --no-daemon
+          gradle assembleDebug --stacktrace --no-daemon
           echo "=== 构建完成 ==="
 
       - name: Build APK (Release)
@@ -136,7 +142,7 @@ jobs:
           if [ -n "$KEYSTORE_FILE" ]; then
             echo "使用签名密钥..."
             echo "$KEYSTORE_FILE" | base64 -d > keystore.jks
-            ./gradlew assembleRelease \
+            gradle assembleRelease \
               -Pandroid.injected.signing.store.file=$(pwd)/keystore.jks \
               -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
               -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
@@ -144,7 +150,7 @@ jobs:
               --stacktrace --no-daemon
           else
             echo "未配置签名密钥，构建未签名 Release APK"
-            ./gradlew assembleRelease --stacktrace --no-daemon
+            gradle assembleRelease --stacktrace --no-daemon
           fi
           echo "=== 构建完成 ==="
 
