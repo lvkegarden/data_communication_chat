@@ -2,6 +2,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Dict, Any, Optional
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'python'))
+from config_loader import get_scraper_headers
 
 from scraper_logger import log
 
@@ -60,13 +65,7 @@ class BaseScraper(ABC):
     def __init__(self, source: str, base_url: str):
         self.source = source
         self.base_url = base_url
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive'
-        }
+        self.headers = get_scraper_headers()
     
     @abstractmethod
     def get_category_urls(self) -> Dict[str, str]:

@@ -1206,8 +1206,9 @@
 
     <div id="toast" class="toast"></div>
 
+    <script src="../config/web-config.js"></script>
     <script>
-        const API_BASE = 'http://localhost:8080/api';
+        const API_BASE = window.AppConfig.api.javaBaseUrl;
         let chatSessionId = 'web-' + Date.now();
         let pendingMessage = null;
         let pendingPayload = null;
@@ -1560,17 +1561,31 @@
         }
 
         function showPayloadPreview(payloadData) {
+            console.log('[DEBUG] showPayloadPreview 被调用');
+            console.log('[DEBUG] payloadData:', payloadData ? '存在' : '为空');
+            
             const modal = document.getElementById('preview-modal');
             const content = document.getElementById('payload-content');
+            
+            console.log('[DEBUG] modal 元素:', modal ? '找到' : '未找到');
+            console.log('[DEBUG] content 元素:', content ? '找到' : '未找到');
+            
             if (!payloadData) {
+                console.log('[DEBUG] 预览数据为空，显示提示');
                 content.innerHTML = '<span style="color: #858585;">预览数据为空</span>';
                 modal.classList.add('show');
+                console.log('[DEBUG] 添加 show 类后 classList:', modal.className);
                 return;
             }
+            
             const formattedJson = formatJsonPreview(payloadData);
             const highlightedHtml = highlightJson(formattedJson);
             content.innerHTML = highlightedHtml;
+            console.log('[DEBUG] 内容已设置，长度:', highlightedHtml.length);
+            
             modal.classList.add('show');
+            console.log('[DEBUG] 添加 show 类后 classList:', modal.className);
+            console.log('[DEBUG] modal 样式 display:', getComputedStyle(modal).display);
         }
 
         function hidePayloadPreview() {
@@ -1600,10 +1615,20 @@
         });
 
         async function prepareChat() {
+            console.log('[DEBUG] prepareChat 函数被调用');
+            
             const input = document.getElementById('chat-input');
             const message = input.value.trim();
-            if (!message) return;
+            
+            console.log('[DEBUG] 输入内容:', message);
+            
+            if (!message) {
+                console.log('[DEBUG] 输入为空，返回');
+                showToast('请输入消息', 'warning');
+                return;
+            }
 
+            console.log('[DEBUG] 开始处理请求');
             pendingMessage = message;
             pendingPayload = {
                 session_id: chatSessionId,
@@ -1612,15 +1637,21 @@
                 model_provider: currentModelProvider
             };
 
+            console.log('[DEBUG] 请求参数:', JSON.stringify(pendingPayload));
+
             setInputEnabled(false);
 
             try {
+                console.log('[DEBUG] 发送请求到:', `${API_BASE}/chat/chat`);
                 const response = await fetch(`${API_BASE}/chat/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(pendingPayload)
                 });
+                
+                console.log('[DEBUG] 响应状态:', response.status);
                 const data = await response.json();
+                console.log('[DEBUG] 响应数据:', data);
 
                 if (data.success) {
                     addChatMessage(message, true);
@@ -1633,19 +1664,26 @@
                         flag: 'y',
                         model_provider: currentModelProvider
                     };
+                    
+                    console.log('[DEBUG] 显示预览弹窗');
+                    console.log('[DEBUG] data.preview:', data.preview ? '存在' : '为空');
                     showPayloadPreview(data.preview);
                     setSubmitEnabled(true);
+                    showToast('预览成功', 'success');
                 } else {
+                    console.log('[DEBUG] 预览失败:', data.error);
                     addChatMessage('预览失败: ' + (data.error || '未知错误'));
                     setSubmitEnabled(false);
-                    showToast('预览失败', 'error');
+                    showToast('预览失败: ' + (data.error || '未知错误'), 'error');
                 }
             } catch (error) {
+                console.log('[DEBUG] 请求异常:', error);
                 addChatMessage('预览请求失败: ' + error.message);
                 setSubmitEnabled(false);
-                showToast('网络请求失败', 'error');
+                showToast('网络请求失败: ' + error.message, 'error');
             } finally {
                 setInputEnabled(true);
+                console.log('[DEBUG] 函数执行完毕');
             }
         }
 

@@ -288,6 +288,7 @@
         </div>
     </div>
 
+    <script src="../config/web-config.js"></script>
     <script>
         async function checkStatus() {
             document.getElementById('java-dot').className = 'status-dot';
@@ -314,7 +315,7 @@
             }
 
             try {
-                const pythonResponse = await fetch('http://localhost:5001/api/chat', {
+                const pythonResponse = await fetch(window.AppConfig.api.pythonBaseUrl + window.AppConfig.endpoints.chat, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ session_id: 'status_check', message: '你好', flag: 'y' }),

@@ -580,8 +580,9 @@
         </div>
     </div>
 
+    <script src="../config/web-config.js"></script>
     <script>
-        const BASE_URL = 'http://localhost:8080/api/collect';
+        const BASE_URL = window.AppConfig.api.javaBaseUrl + window.AppConfig.endpoints.collect;
         let allProducts = [];
         let selectedProducts = [];
 

@@ -3,6 +3,8 @@ from enum import Enum
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
 
+from config_loader import get_all_intent_keywords, get_intent_keywords
+
 logger = logging.getLogger(__name__)
 
 
@@ -30,7 +32,12 @@ class IntentResult:
 class IntentRouter:
     def __init__(self, llm=None):
         self.llm = llm
+        self._load_keyword_configs()
         logger.info("IntentRouter initialized")
+    
+    def _load_keyword_configs(self):
+        self.intent_keywords = get_all_intent_keywords()
+        logger.info("Loaded intent keywords config for %d intents", len(self.intent_keywords))
 
     def classify(self, messages: List[Any]) -> IntentResult:
         if not messages:
@@ -43,37 +50,39 @@ class IntentRouter:
         
         logger.info("Classifying intent for message (length: %d chars): %s", len(content), content[:100])
         
-        if any(g in content_lower for g in ['你好', 'hi', 'hello', '早上好', '下午好', '晚上好', '嗨']) and len(content) < 20:
-            logger.info("Intent matched: GREETING (confidence: 0.9)")
-            return IntentResult(IntentType.GREETING, 0.9, "检测到问候语")
+        intent_order = [
+            IntentType.GREETING,
+            IntentType.FAREWELL,
+            IntentType.COMPETITOR_ANALYSIS,
+            IntentType.PRODUCT_INTRODUCTION,
+            IntentType.PRODUCT_QUERY,
+            IntentType.CODE_QUERY,
+            IntentType.DATA_ANALYSIS,
+            IntentType.KNOWLEDGE_QUERY
+        ]
         
-        if any(f in content_lower for f in ['再见', 'bye', '拜拜', '晚安']) and len(content) < 20:
-            logger.info("Intent matched: FAREWELL (confidence: 0.9)")
-            return IntentResult(IntentType.FAREWELL, 0.9, "检测到告别语")
-        
-        if any(c in content for c in ['代码', '程序', '函数', '类', 'bug', '错误', 'python', 'java', 'javascript', 'sql']):
-            logger.info("Intent matched: CODE_QUERY (confidence: 0.7)")
-            return IntentResult(IntentType.CODE_QUERY, 0.7, "检测到代码相关关键词")
-        
-        if any(c in content for c in ['竞品分析', '竞争分析', '产品对比', 'competitor analysis', 'generate competitor analysis']):
-            logger.info("Intent matched: COMPETITOR_ANALYSIS (confidence: 0.8)")
-            return IntentResult(IntentType.COMPETITOR_ANALYSIS, 0.8, "检测到竞品分析请求")
-        
-        if any(p in content for p in ['产品介绍', '产品说明', '产品概述', 'product introduction', 'generate introduction']):
-            logger.info("Intent matched: PRODUCT_INTRODUCTION (confidence: 0.8)")
-            return IntentResult(IntentType.PRODUCT_INTRODUCTION, 0.8, "检测到产品介绍请求")
-        
-        if any(q in content for q in ['查询产品', '产品查询', '产品信息', 'query product', 'product list', '查看所有产品', '产品列表']):
-            logger.info("Intent matched: PRODUCT_QUERY (confidence: 0.7)")
-            return IntentResult(IntentType.PRODUCT_QUERY, 0.7, "检测到产品查询请求")
-        
-        if any(d in content for d in ['分析', '统计', '数据', '报表', 'excel', '图表']):
-            logger.info("Intent matched: DATA_ANALYSIS (confidence: 0.7)")
-            return IntentResult(IntentType.DATA_ANALYSIS, 0.7, "检测到数据分析关键词")
-        
-        if any(k in content for k in ['什么是', '为什么', '怎么回事', '解释', '说明', '原理']):
-            logger.info("Intent matched: KNOWLEDGE_QUERY (confidence: 0.6)")
-            return IntentResult(IntentType.KNOWLEDGE_QUERY, 0.6, "检测到知识查询")
+        for intent_type in intent_order:
+            intent_name = intent_type.value
+            config = self.intent_keywords.get(intent_name)
+            
+            if not config:
+                continue
+            
+            keywords = config.get('keywords', [])
+            max_length = config.get('max_length')
+            confidence = config.get('confidence', 0.5)
+            reason = config.get('reason', intent_name)
+            
+            use_lower = intent_name in ['greeting', 'farewell']
+            content_to_check = content_lower if use_lower else content
+            
+            if any(kw in content_to_check for kw in keywords):
+                if max_length and len(content) >= max_length:
+                    continue
+                
+                logger.info("Intent matched: %s (confidence: %.1f, reason: %s)", 
+                          intent_type.name, confidence, reason)
+                return IntentResult(intent_type, confidence, reason)
         
         logger.info("Intent matched: GENERAL_CHAT (confidence: 0.5, default)")
         return IntentResult(IntentType.GENERAL_CHAT, 0.5, "通用聊天")

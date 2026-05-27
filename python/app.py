@@ -17,6 +17,15 @@ from intent import register_intent_routes
 from product_data_fetcher import ProductDataFetcher
 from prompt_assembler import PromptAssembler
 from prompt_builder import PromptBuilder
+from config_loader import (
+    get_llm_config,
+    get_default_provider,
+    get_llm_temperature,
+    get_provider_config,
+    get_model_name as get_config_model_name,
+    get_api_key,
+    get_system_prompt
+)
 
 load_dotenv(override=False)
 
@@ -26,16 +35,12 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "qwen")
-DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY")
-QWEN_MODEL = os.getenv("QWEN_MODEL", "qwen-plus")
-QWEN_BASE_URL = os.getenv("QWEN_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
-DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1")
+LLM_CONFIG = get_llm_config()
+LLM_PROVIDER = get_default_provider()
+LLM_TEMPERATURE = get_llm_temperature()
 LANGGRAPH_PORT = int(os.getenv("LANGGRAPH_PORT", 5001))
 
-CURRENT_MODEL_NAME = QWEN_MODEL if LLM_PROVIDER == "qwen" else DEEPSEEK_MODEL
+CURRENT_MODEL_NAME = get_config_model_name(LLM_PROVIDER)
 
 
 def get_llm(provider=None):
@@ -45,52 +50,41 @@ def get_llm(provider=None):
     logger.info("Initializing LLM client")
     logger.info("Selected LLM provider: %s", provider)
     
-    if provider == "deepseek":
-        env_key = os.environ.get("DEEPSEEK_API_KEY")
-        dotenv_key_used = env_key is None and DEEPSEEK_API_KEY is not None
-        
-        if not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your-deepseek-api-key-here" or "xxxxxxxx" in DEEPSEEK_API_KEY:
-            logger.error("DEEPSEEK_API_KEY environment variable is not properly configured")
-            raise ValueError("DEEPSEEK_API_KEY environment variable is not properly configured. "
-                            "Please set it as a system environment variable or in the .env file.")
-        
-        key_source = "system environment variable" if env_key else ".env file"
-        logger.info("DEEPSEEK_API_KEY loaded from: %s", key_source)
-        logger.info("LLM client initialized with DeepSeek model: %s", DEEPSEEK_MODEL)
-        logger.info("DeepSeek API base URL: %s", DEEPSEEK_BASE_URL)
-        
-        return ChatOpenAI(
-            api_key=DEEPSEEK_API_KEY,
-            base_url=DEEPSEEK_BASE_URL,
-            model=DEEPSEEK_MODEL,
-            temperature=0.7
-        )
-    else:
-        env_key = os.environ.get("DASHSCOPE_API_KEY")
-        dotenv_key_used = env_key is None and DASHSCOPE_API_KEY is not None
-        
-        if not DASHSCOPE_API_KEY or DASHSCOPE_API_KEY == "your-dashscope-api-key-here" or "xxxxxxxx" in DASHSCOPE_API_KEY:
-            logger.error("DASHSCOPE_API_KEY environment variable is not properly configured")
-            raise ValueError("DASHSCOPE_API_KEY environment variable is not properly configured. "
-                            "Please set it as a system environment variable or in the .env file.")
-        
-        key_source = "system environment variable" if env_key else ".env file"
-        logger.info("DASHSCOPE_API_KEY loaded from: %s", key_source)
-        logger.info("LLM client initialized with Qwen model: %s", QWEN_MODEL)
-        logger.info("Qwen API base URL: %s", QWEN_BASE_URL)
-        
-        return ChatOpenAI(
-            api_key=DASHSCOPE_API_KEY,
-            base_url=QWEN_BASE_URL,
-            model=QWEN_MODEL,
-            temperature=0.7
-        )
+    provider_config = get_provider_config(provider)
+    if not provider_config:
+        logger.error("Unknown LLM provider: %s", provider)
+        raise ValueError(f"Unknown LLM provider: {provider}")
+    
+    model_name = provider_config.get('model')
+    base_url = provider_config.get('base_url')
+    api_key_env = provider_config.get('api_key_env')
+    api_key = os.getenv(api_key_env) if api_key_env else None
+    
+    logger.info("LLM model: %s", model_name)
+    logger.info("LLM base URL: %s", base_url)
+    logger.info("LLM temperature: %s", LLM_TEMPERATURE)
+    
+    if not api_key or api_key == f"your-{provider}-api-key-here" or "xxxxxxxx" in api_key:
+        logger.error("%s is not properly configured", api_key_env or "API key")
+        raise ValueError(f"{api_key_env or 'API key'} environment variable is not properly configured. "
+                        "Please set it as a system environment variable or in the .env file.")
+    
+    logger.info("API key loaded from environment variable: %s", api_key_env)
+    
+    kwargs = {
+        'api_key': api_key,
+        'base_url': base_url,
+        'model': model_name,
+        'temperature': LLM_TEMPERATURE
+    }
+    
+    return ChatOpenAI(**kwargs)
 
 
 def get_model_name(provider=None):
     if provider is None:
         provider = LLM_PROVIDER
-    return DEEPSEEK_MODEL if provider == "deepseek" else QWEN_MODEL
+    return get_config_model_name(provider)
 
 
 llm = get_llm()
@@ -123,18 +117,7 @@ sessions: Dict[str, SessionData] = {}
 
 
 def build_system_prompt(intent_type: str) -> str:
-    if intent_type == "product_introduction":
-        return """你是一个专业的数通产品分析师，擅长撰写清晰、有吸引力的产品介绍。
-请根据提供的产品信息，生成一份专业的产品介绍。"""
-    elif intent_type == "competitor_analysis":
-        return """你是一个资深的数通产品竞争情报分析师，擅长进行竞品对比分析。
-请对提供的目标产品和竞品信息进行专业分析。"""
-    elif intent_type == "product_query":
-        return """你是一个数通产品专家，擅长介绍和解答产品相关问题。
-请根据查询到的产品信息，为用户提供详细的产品介绍和对比。"""
-    else:
-        return """你是一个智能对话助手，擅长帮助用户解决各种问题。
-请根据对话历史和用户当前的问题，给出合适的回答。"""
+    return get_system_prompt(intent_type)
 
 
 def route_to_system_prompt(intent_type: str) -> str:

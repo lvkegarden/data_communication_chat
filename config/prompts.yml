@@ -1,0 +1,120 @@
+# ============================================================================
+# 提示词 (Prompt) 配置文件
+# 路径: config/prompts.yml
+# ============================================================================
+# 使用说明:
+# 1. 此文件包含所有系统提示词和意图识别关键词配置
+# 2. 修改此文件后需要重启 Python 服务才能生效
+# 3. 系统提示词用于指导 LLM 在不同场景下的行为
+# 4. 意图关键词用于简单规则匹配，快速识别用户意图
+# ============================================================================
+
+system_prompts:
+  product_introduction: |
+    你是一个专业的数通产品分析师，擅长撰写清晰、有吸引力的产品介绍。
+    请根据提供的产品信息，生成一份专业的产品介绍。
+
+  competitor_analysis: |
+    你是一个资深的数通产品竞争情报分析师，擅长进行竞品对比分析。
+    请对提供的目标产品和竞品信息进行专业分析。
+
+  product_query: |
+    你是一个数通产品专家，擅长介绍和解答产品相关问题。
+    请根据查询到的产品信息，为用户提供详细的产品介绍和对比。
+
+  general_chat: |
+    你是一个智能对话助手，擅长帮助用户解决各种问题。
+    请根据对话历史和用户当前的问题，给出合适的回答。
+
+intent_keywords:
+  greeting:
+    keywords:
+      - 你好
+      - hi
+      - hello
+      - 早上好
+      - 下午好
+      - 晚上好
+      - 嗨
+    max_length: 20
+    confidence: 0.9
+    reason: 检测到问候语
+
+  farewell:
+    keywords:
+      - 再见
+      - bye
+      - 拜拜
+      - 晚安
+    max_length: 20
+    confidence: 0.9
+    reason: 检测到告别语
+
+  code_query:
+    keywords:
+      - 代码
+      - 程序
+      - 函数
+      - 类
+      - bug
+      - 错误
+      - python
+      - java
+      - javascript
+      - sql
+    confidence: 0.7
+    reason: 检测到代码相关关键词
+
+  competitor_analysis:
+    keywords:
+      - 竞品分析
+      - 竞争分析
+      - 产品对比
+      - competitor analysis
+      - generate competitor analysis
+    confidence: 0.8
+    reason: 检测到竞品分析请求
+
+  product_introduction:
+    keywords:
+      - 产品介绍
+      - 产品说明
+      - 产品概述
+      - product introduction
+      - generate introduction
+    confidence: 0.8
+    reason: 检测到产品介绍请求
+
+  product_query:
+    keywords:
+      - 查询产品
+      - 产品查询
+      - 产品信息
+      - query product
+      - product list
+      - 查看所有产品
+      - 产品列表
+    confidence: 0.7
+    reason: 检测到产品查询请求
+
+  data_analysis:
+    keywords:
+      - 分析
+      - 统计
+      - 数据
+      - 报表
+      - excel
+      - 图表
+    confidence: 0.7
+    reason: 检测到数据分析关键词
+
+  knowledge_query:
+    keywords:
+      - 什么是
+      - 为什么
+      - 怎么回事
+      - 解释
+      - 说明
+      - 原理
+    confidence: 0.6
+    reason: 检测到知识查询

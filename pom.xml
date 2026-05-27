@@ -71,6 +71,10 @@
                 <directory>web</directory>
                 <targetPath>static</targetPath>
             </resource>
+            <resource>
+                <directory>config</directory>
+                <targetPath>static/config</targetPath>
+            </resource>
         </resources>
         <plugins>
             <plugin>
