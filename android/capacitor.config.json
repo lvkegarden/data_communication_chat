@@ -1,6 +1,6 @@
 {
   "appId": "com.localrest.mobile",
-  "appName": "数通产品智能体",
+  "appName": "LocalRest Agent",
   "webDir": "web",
   "bundledWebRuntime": false,
   "plugins": {
