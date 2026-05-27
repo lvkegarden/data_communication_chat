@@ -44,6 +44,12 @@ jobs:
           ls -la
           echo "=== android/android 目录 ==="
           ls -la android/android/ 2>/dev/null || echo "android/android 目录不存在"
+          echo "=== android/android/app 目录 ==="
+          ls -la android/android/app/ 2>/dev/null || echo "android/android/app 目录不存在"
+          echo "=== android/android/app/src/main 目录 ==="
+          ls -la android/android/app/src/main/ 2>/dev/null || echo "目录不存在"
+          echo "=== android/android/app/src/main/res 目录 ==="
+          ls -la android/android/app/src/main/res/ 2>/dev/null || echo "目录不存在"
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -62,6 +68,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
+          cache-disabled: true
 
       - name: Verify Gradle
         run: |
@@ -89,9 +96,11 @@ jobs:
           mkdir -p android/android/app/src/main/assets/web
           if [ -d "android/web" ]; then
             cp -r android/web/* android/android/app/src/main/assets/web/
+            echo "=== android/android/app/src/main/assets/web 目录 ==="
             ls -la android/android/app/src/main/assets/web/
           else
-            echo "警告: android/web 目录不存在"
+            echo "警告: android/web 目录不存在，创建一个简单的 index.html"
+            echo '<!DOCTYPE html><html><body><h1>LocalRest Agent</h1><p>请添加 web 目录</p></body></html>' > android/android/app/src/main/assets/web/index.html
           fi
 
       - name: Copy data files to assets
@@ -109,24 +118,62 @@ jobs:
             echo "警告: 未找到数据文件"
           fi
           
+          echo "=== android/android/app/src/main/assets 目录 ==="
           ls -la android/android/app/src/main/assets/
 
-      - name: List android project structure
+      - name: List android project files
         working-directory: android/android
         run: |
-          echo "=== Android 项目结构 ==="
-          ls -la
-          echo "=== app 目录 ==="
-          ls -la app/
-          echo "=== app/src 目录 ==="
-          ls -la app/src/
+          echo "=== build.gradle (root) ==="
+          cat build.gradle
+          echo ""
+          echo "=== settings.gradle ==="
+          cat settings.gradle
+          echo ""
+          echo "=== gradle.properties ==="
+          cat gradle.properties
+          echo ""
+          echo "=== app/build.gradle ==="
+          cat app/build.gradle
+
+      - name: List resource files
+        working-directory: android/android
+        run: |
+          echo "=== 资源文件列表 ==="
+          find app/src/main/res -type f -name "*.xml" | head -30
+          echo ""
+          echo "=== Java/Kotlin 文件列表 ==="
+          find app/src/main/java -type f -name "*.kt" -o -name "*.java" | head -30
+
+      - name: Gradle wrapper check
+        working-directory: android/android
+        run: |
+          echo "=== 检查是否有 gradle wrapper ==="
+          ls -la gradle* 2>/dev/null || echo "没有 gradle wrapper 文件"
+          echo ""
+          echo "=== 尝试初始化 wrapper ==="
+          gradle wrapper --gradle-version ${{ env.GRADLE_VERSION }} 2>&1 || echo "wrapper 初始化失败，继续..."
+          
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+            echo "gradlew 创建成功"
+          else
+            echo "没有 gradlew，将直接使用 gradle 命令"
+          fi
+
+      - name: Gradle projects check
+        working-directory: android/android
+        run: |
+          echo "=== Gradle projects ==="
+          gradle projects --no-daemon || echo "gradle projects 命令执行失败"
 
       - name: Build APK (Debug)
         if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
         working-directory: android/android
         run: |
           echo "=== 开始构建 Debug APK ==="
-          gradle assembleDebug --stacktrace --no-daemon
+          echo "=== 命令: gradle :app:assembleDebug --stacktrace --no-daemon ==="
+          gradle :app:assembleDebug --stacktrace --no-daemon --info
           echo "=== 构建完成 ==="
 
       - name: Build APK (Release)
@@ -142,7 +189,7 @@ jobs:
           if [ -n "$KEYSTORE_FILE" ]; then
             echo "使用签名密钥..."
             echo "$KEYSTORE_FILE" | base64 -d > keystore.jks
-            gradle assembleRelease \
+            gradle :app:assembleRelease \
               -Pandroid.injected.signing.store.file=$(pwd)/keystore.jks \
               -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
               -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
@@ -150,7 +197,7 @@ jobs:
               --stacktrace --no-daemon
           else
             echo "未配置签名密钥，构建未签名 Release APK"
-            gradle assembleRelease --stacktrace --no-daemon
+            gradle :app:assembleRelease --stacktrace --no-daemon
           fi
           echo "=== 构建完成 ==="
 
@@ -158,6 +205,9 @@ jobs:
         run: |
           echo "=== 查找 APK 文件 ==="
           find . -name "*.apk" -type f 2>/dev/null
+          echo ""
+          echo "=== 查找构建输出目录 ==="
+          find android/android -name "outputs" -type d 2>/dev/null || echo "没有 outputs 目录"
 
       - name: Upload Debug APK
         if: ${{ github.event.inputs.release_type == 'debug' || github.event.inputs.release_type == '' }}
