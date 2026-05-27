@@ -43,7 +43,7 @@ localrest/
 ## 2. 前提条件
 
 ### 本地开发（可选）
-- Node.js 20+
+- Node.js 22+ （**注意：Node 20 已在 GitHub Actions 中弃用**）
 - Java 17+
 - （可选）Android Studio（如果需要本地调试）
 
